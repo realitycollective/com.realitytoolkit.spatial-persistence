@@ -1,0 +1,30 @@
+{
+  "name": "com.xrtk.anchors",
+  "displayName": "XRTK.Anchors",
+  "description": "The Anchors components for the Mixed Reality Toolkit.",
+  "keywords": [
+    "xrtk",
+    "vr",
+    "ar",
+    "xr",
+    "mixed",
+    "reality"
+  ],
+  "version": "0.3.0",
+  "unity": "2020.3",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XRTK/Anchors.git"
+  },
+  "author": "XRTK Team (https://github.com/XRTK)",
+  "dependencies": {
+    "com.xrtk.core": "0.3.0-preview.7"
+  },
+  "profiles": [
+    {
+      "displayName": "Default Profiles",
+      "path": "Profiles~/"
+    }
+  ]
+}
