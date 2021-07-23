@@ -4,15 +4,15 @@
 using UnityEngine;
 using XRTK.Editor.Utilities;
 
-namespace XRTK.Anchors.Editor
+namespace XRTK.SpatialPersistence.Editor
 {
     /// <summary>
-    /// Dummy scriptable object used to find the relative path of the com.xrtk.anchors.
+    /// Dummy scriptable object used to find the relative path of the com.xrtk.spatial-persistence.
     /// </summary>
     ///// <inheritdoc cref="IPathFinder" />
-    public class AnchorsPathFinder : ScriptableObject, IPathFinder
+    public class SpatialPersistencePathFinder : ScriptableObject, IPathFinder
     {
         ///// <inheritdoc />
-        public string Location => $"/Editor/{nameof(AnchorsPathFinder)}.cs";
+        public string Location => $"/Editor/{nameof(SpatialPersistencePathFinder)}.cs";
     }
 }

@@ -8,9 +8,9 @@ resources:
       endpoint: XRTK
 
 variables:
-  project.name: 'XRTK.Anchors'
+  project.name: 'XRTK.SpatialPersistence'
   project.upmSha: ''
-  package.name: 'com.xrtk.anchors'
+  package.name: 'com.xrtk.spatial-persistence'
   package.version: ''
   EditorPath: ''
   LogDirectory: ''
@@ -33,13 +33,13 @@ pr:
   paths:
     include:
     - azure-pipelines.yml
-    - XRTK.Anchors/*
+    - XRTK.SpatialPersistence/*
     - Submodules/*
     exclude:
       - '*'
-      - XRTK.Anchors/Packages/com.xrtk.anchors/package.json
-      - XRTK.Anchors/Packages/com.xrtk.anchors/README.md
-      - XRTK.Anchors/Packages/com.xrtk.anchors/LICENSE.md
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/package.json
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/README.md
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/LICENSE.md
 
 trigger:
   batch: true
@@ -49,13 +49,13 @@ trigger:
   paths:
     include:
       - azure-pipelines.yml
-      - XRTK.Anchors/*
+      - XRTK.SpatialPersistence/*
       - Submodules/*
     exclude:
       - '*'
-      - XRTK.Anchors/Packages/com.xrtk.anchors/package.json
-      - XRTK.Anchors/Packages/com.xrtk.anchors/README.md
-      - XRTK.Anchors/Packages/com.xrtk.anchors/LICENSE.md
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/package.json
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/README.md
+      - XRTK.SpatialPersistence/Packages/com.xrtk.spatial-persistence/LICENSE.md
 
 extends:
   template: common.yml@pipeline_repo

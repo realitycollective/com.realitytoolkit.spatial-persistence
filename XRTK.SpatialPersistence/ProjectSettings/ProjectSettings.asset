@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: XRTK
-  productName: XRTK.Anchors
+  productName: XRTK.SpatialPersistence
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -146,10 +146,10 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.xrtk.anchors
-    Lumin: com.xrtk.anchors
-    Standalone: com.xrtk.anchors
-    iPhone: com.xrtk.anchors
+    Android: com.xrtk.spatial-persistence
+    Lumin: com.xrtk.spatial-persistence
+    Standalone: com.xrtk.spatial-persistence
+    iPhone: com.xrtk.spatial-persistence
   buildNumber:
     Standalone: 0
     iPhone: 0
@@ -622,7 +622,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: Template_3D
   wsaImages: {}
-  metroTileShortName: XRTK.Anchors
+  metroTileShortName: XRTK.SpatialPersistence
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

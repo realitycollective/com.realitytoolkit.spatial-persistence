@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BuildInfo
   m_EditorClassIdentifier: 
   autoIncrement: 0
-  bundleIdentifier: com.xrtk.anchors
+  bundleIdentifier: com.xrtk.spatial-persistence
   install: 0

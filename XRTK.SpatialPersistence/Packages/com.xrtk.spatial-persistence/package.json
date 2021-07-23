@@ -1,7 +1,7 @@
 {
-  "name": "com.xrtk.anchors",
-  "displayName": "XRTK.Anchors",
-  "description": "The Anchors components for the Mixed Reality Toolkit.",
+  "name": "com.xrtk.spatial-persistence",
+  "displayName": "XRTK.SpatialPersistence",
+  "description": "The Spatial Persistence components for the Mixed Reality Toolkit.",
   "keywords": [
     "xrtk",
     "vr",
@@ -15,7 +15,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XRTK/Anchors.git"
+    "url": "git+https://github.com/XRTK/SpatialPersistence.git"
   },
   "author": "XRTK Team (https://github.com/XRTK)",
   "dependencies": {
