@@ -101,11 +101,13 @@ namespace XRTK.Services.SpatialPersistence
 
             activeDataProviders.Add(provider);
             SpatialPersistenceEvents(provider, true);
+            currentSpatialPersistenceProvider = provider;   
+
             return true;
         }
 
         /// <inheritdoc />
-        public bool UnregisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
+        public bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
         {
             if (!activeDataProviders.Contains(provider))
             {
@@ -114,6 +116,8 @@ namespace XRTK.Services.SpatialPersistence
 
             SpatialPersistenceEvents(provider, false);
             activeDataProviders.Remove(provider);
+            currentSpatialPersistenceProvider = null;
+
             return true;
         }
 

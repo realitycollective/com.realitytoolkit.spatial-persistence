@@ -3,13 +3,14 @@
 
 using System;
 using UnityEngine;
+using XRTK.Interfaces.CameraSystem;
 
 namespace XRTK.Interfaces.SpatialPersistence
 {
     /// <summary>
     /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration</see>.
     /// </summary>
-    public interface IMixedRealitySpatialPersistenceSystem : IMixedRealitySystem
+    public interface IMixedRealitySpatialPersistenceSystem : IMixedRealityExtensionService
     {
         /// <summary>
         /// The current <see cref="IMixedRealitySpatialPersistenceDataProvider"/>
@@ -104,5 +105,19 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<string> CloudAnchorLocated;
 
         #endregion Public Events
+
+        /// <summary>
+        /// Registers the <see cref="IMixedRealitySpatialPersistenceDataProvider"/> with the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
+        /// </summary>
+        /// <param name="dataProvider"></param>
+        /// <returns></returns>
+        bool RegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider dataProvider);
+
+        /// <summary>
+        /// UnRegisters the <see cref="IMixedRealitySpatialPersistenceDataProvider"/> with the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
+        /// </summary>
+        /// <param name="dataProvider"></param>
+        /// <returns></returns>
+        bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider dataProvider);
     }
 }
