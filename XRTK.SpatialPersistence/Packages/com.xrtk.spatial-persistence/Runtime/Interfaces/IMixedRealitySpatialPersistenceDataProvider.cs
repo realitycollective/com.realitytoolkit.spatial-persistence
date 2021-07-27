@@ -11,7 +11,7 @@ namespace XRTK.Interfaces.SpatialPersistence
     /// <summary>
     /// Interface contract for specific identity provider implementations for use in the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
     /// </summary>
-    public interface IMixedRealitySpatialPersistenceDataProvider : IMixedRealityExtensionDataProvider
+    public interface IMixedRealitySpatialPersistenceDataProvider : IMixedRealityDataProvider
     {
         /// <summary>
         /// The Instance Type for the Spatial Persistence Data Provider

@@ -10,7 +10,7 @@ namespace XRTK.Interfaces.SpatialPersistence
     /// <summary>
     /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration</see>.
     /// </summary>
-    public interface IMixedRealitySpatialPersistenceSystem : IMixedRealityExtensionService
+    public interface IMixedRealitySpatialPersistenceSystem : IMixedRealitySystem
     {
         /// <summary>
         /// The current <see cref="IMixedRealitySpatialPersistenceDataProvider"/>
@@ -34,7 +34,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// </summary>
         /// <param name="id">String identifier for the cloud SpatialPersistence platform to locate</param>
         /// <returns>Returns true of the location request to the service was successful</returns>
-        /// <remarks>Does not return an SpatialPersistence, the <see cref="CloudAnchorLocated"/> event will respond with discovered SpatialPersistences</remarks>
+        /// <remarks>Does not return an SpatialPersistence, the <see cref="CloudAnchorLocated"/> event will respond with discovered SpatialPersistence anchors</remarks>
         bool FindAnchorPoint(string id);
 
         /// <summary>

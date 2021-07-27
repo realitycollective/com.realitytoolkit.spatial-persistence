@@ -13,7 +13,7 @@ namespace XRTK.Services.SpatialPersistence
     /// Concrete implementation of the <see cref="IMixedRealitySpatialPersistenceSystem"/>
     /// </summary>
     [System.Runtime.InteropServices.Guid("C055102F-5204-42ED-A4D8-F80D129B6BBD")]
-    public class SpatialPersistenceSystem : BaseExtensionService, IMixedRealitySpatialPersistenceSystem
+    public class SpatialPersistenceSystem : BaseSystem, IMixedRealitySpatialPersistenceSystem
     {
         private IMixedRealitySpatialPersistenceDataProvider currentSpatialPersistenceProvider;
 
@@ -21,7 +21,8 @@ namespace XRTK.Services.SpatialPersistence
         public IMixedRealitySpatialPersistenceDataProvider CurrentSpatialPersistenceProvider => currentSpatialPersistenceProvider;
 
         /// <inheritdoc />
-        public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile) : base(name, priority, profile)
+        public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile) 
+            : base(profile)
         { }
 
         #region IMixedRealitySpatialPersistenceSystem Implementation

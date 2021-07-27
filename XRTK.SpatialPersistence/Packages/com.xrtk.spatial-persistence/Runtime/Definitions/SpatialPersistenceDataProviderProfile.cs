@@ -11,6 +11,6 @@ namespace XRTK.Definitions.SpatialPersistence
     /// The configuration profile for <see cref="IMixedRealitySpatialPersistenceDataProvider"/>.
     /// </summary>
     [CreateAssetMenu(menuName = "Mixed Reality Toolkit/SpatialPersistences/SpatialPersistence Data Provider", fileName = "SpatialPersistenceDataProviderProfile", order = (int)CreateProfileMenuItemIndices.RegisteredServiceProviders)]
-    public class SpatialPersistenceDataProviderProfile : BaseMixedRealityExtensionDataProviderProfile
+    public class SpatialPersistenceDataProviderProfile : BaseMixedRealityProfile
     { }
 }
