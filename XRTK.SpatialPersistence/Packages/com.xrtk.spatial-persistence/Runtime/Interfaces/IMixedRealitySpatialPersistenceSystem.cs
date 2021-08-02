@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace XRTK.Interfaces.SpatialPersistence
@@ -11,6 +12,8 @@ namespace XRTK.Interfaces.SpatialPersistence
     /// </summary>
     public interface IMixedRealitySpatialPersistenceSystem : IMixedRealitySystem
     {
+        IReadOnlyCollection<IMixedRealitySpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders { get; }
+
         #region Methods
 
         /// <summary>
