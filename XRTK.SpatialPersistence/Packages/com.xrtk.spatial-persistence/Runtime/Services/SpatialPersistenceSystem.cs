@@ -16,9 +16,23 @@ namespace XRTK.Services.SpatialPersistence
     public class SpatialPersistenceSystem : BaseSystem, IMixedRealitySpatialPersistenceSystem
     {
         /// <inheritdoc />
-        public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile) 
+        public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile)
             : base(profile)
         { }
+
+        #region MonoBehaviours
+
+        public override void Destroy()
+        {
+            foreach (var persistenceDataProvider in activeDataProviders)
+            {
+                persistenceDataProvider.StopSpatialPersistenceProvider();
+                SpatialPersistenceEvents(persistenceDataProvider, false);
+            }
+            base.Destroy();
+        }
+
+        #endregion MonoBehaviours
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
 
@@ -80,21 +94,27 @@ namespace XRTK.Services.SpatialPersistence
 
         /// <inheritdoc />
         public event Action CreateAnchorFailed;
+        public void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> CreateAnchorSucceeded;
+        public void OnCreateAnchorSucceeded(Guid id, GameObject anchoredObject) => CreateAnchorSucceeded?.Invoke(id, anchoredObject);
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceStatusMessage;
+        public void OnSpatialPersistenceStatusMessage(string message) => SpatialPersistenceStatusMessage?.Invoke(message);
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceError;
+        public void OnSpatialPersistenceError(string exception) => SpatialPersistenceError?.Invoke(exception);
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorUpdated;
+        public void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorLocated;
+        public void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
 
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
 
@@ -115,7 +135,7 @@ namespace XRTK.Services.SpatialPersistence
 
             activeDataProviders.Add(provider);
             SpatialPersistenceEvents(provider, true);
-
+            provider.StartSpatialPersistenceProvider();
             return true;
         }
 
@@ -139,24 +159,26 @@ namespace XRTK.Services.SpatialPersistence
             {
                 if (isRegistered)
                 {
-                    provider.CreateAnchorSucceeded += CreateAnchorSucceeded;
-                    provider.CreateAnchorFailed += CreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage += SpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated += AnchorUpdated;
-                    provider.AnchorLocated += AnchorLocated;
-                    provider.SpatialPersistenceError += SpatialPersistenceError;
+                    provider.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
+                    provider.CreateAnchorFailed += OnCreateAnchorFailed;
+                    provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
+                    provider.AnchorUpdated += OnAnchorUpdated;
+                    provider.AnchorLocated += OnAnchorLocated;
+                    provider.SpatialPersistenceError += OnSpatialPersistenceError;
                 }
                 else
                 {
-                    provider.CreateAnchorSucceeded -= CreateAnchorSucceeded;
-                    provider.CreateAnchorFailed -= CreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage -= SpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated -= AnchorUpdated;
-                    provider.AnchorLocated -= AnchorLocated;
-                    provider.SpatialPersistenceError -= SpatialPersistenceError;
+                    provider.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
+                    provider.CreateAnchorFailed -= OnCreateAnchorFailed;
+                    provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
+                    provider.AnchorUpdated -= OnAnchorUpdated;
+                    provider.AnchorLocated -= OnAnchorLocated;
+                    provider.SpatialPersistenceError -= OnSpatialPersistenceError;
                 }
             }
         }
+
+
 
         #endregion BaseSystem Implementation
     }
