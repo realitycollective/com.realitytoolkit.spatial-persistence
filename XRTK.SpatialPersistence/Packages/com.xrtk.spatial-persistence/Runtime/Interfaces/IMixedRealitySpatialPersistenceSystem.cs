@@ -8,7 +8,7 @@ using UnityEngine;
 namespace XRTK.Interfaces.SpatialPersistence
 {
     /// <summary>
-    /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration</see>.
+    /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration.
     /// </summary>
     public interface IMixedRealitySpatialPersistenceSystem : IMixedRealitySystem
     {
@@ -17,10 +17,10 @@ namespace XRTK.Interfaces.SpatialPersistence
         #region Methods
 
         /// <summary>
-        /// Create a cloud Anchor at a specified location using the slected prefab GameObject
+        /// Create a cloud Anchor at a specified location using the selected prefab GameObject
         /// </summary>
-        /// <param name="position">Raycast position to place the prefab and localise the Cloud Anchor</param>
-        /// <param name="rotation">Raycast rotation to place the prefab and localise the Cloud Anchor</param>
+        /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
         /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
@@ -34,12 +34,12 @@ namespace XRTK.Interfaces.SpatialPersistence
         bool TryFindAnchorPoints(params Guid[] ids);
 
         /// <summary>
-        /// Moves a currently SpatialPersistenceed object to a new localised position.
+        /// Moves a currently anchored object to a new localized position.
         /// *Note, this in effect destroys the old Anchor and creates a new one.
         /// </summary>
         /// <param name="anchoredObject">Object in the scene to move</param>
-        /// <param name="position">Raycast position to move the prefab to and relocalise the Cloud Anchor</param>
-        /// <param name="rotation">Raycast rotation to move the prefab to and relocalise the Cloud Anchor</param>
+        /// <param name="position">Raycast position to move the prefab to and re-localize the Cloud Anchor</param>
+        /// <param name="rotation">Raycast rotation to move the prefab to and re-localize the Cloud Anchor</param>
         /// <param name="cloudAnchorID"><see cref="Guid"/> identifier for the cloud Anchor platform to place</param>
         /// <returns></returns>
         bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID = new Guid());
@@ -65,7 +65,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<Guid, GameObject> CreateAnchorSucceeded;
 
         /// <summary>
-        /// Status message whilst the SpatialPersistence service is localising the Anchor in place, continues until complete or a failure occurs
+        /// Status message whilst the SpatialPersistence service is localizing the Anchor in place, continues until complete or a failure occurs
         /// </summary>
         event Action<string> SpatialPersistenceStatusMessage;
 
@@ -80,7 +80,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<Guid, GameObject> AnchorUpdated;
 
         /// <summary>
-        /// Location request to SpatialPersistence service successful and a localised Anchor was found and cached.
+        /// Location request to SpatialPersistence service successful and a localized Anchor was found and cached.
         /// </summary>
         event Action<Guid, GameObject> AnchorLocated;
 

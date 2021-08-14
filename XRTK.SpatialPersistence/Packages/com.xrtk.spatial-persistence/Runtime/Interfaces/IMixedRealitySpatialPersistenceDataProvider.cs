@@ -32,8 +32,8 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <summary>
         /// Create a cloud Anchor at a specified location
         /// </summary>
-        /// <param name="position">Raycast position to place the prefab and localise the Cloud Anchor</param>
-        /// <param name="rotation">Raycast rotation to place the prefab and localise the Cloud Anchor</param>
+        /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
         /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
@@ -43,7 +43,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// </summary>
         /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud SpatialPersistence platform to locate</param>
         /// <returns>Returns true of the location request to the service was successful</returns>
-        /// <remarks>Does not return SpatialPersistences, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
+        /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
         bool TryFindAnchorPoints(params Guid[] ids);
 
         /// <summary>
@@ -68,9 +68,9 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// Moving an object with an existing cloud Anchor without referencing it's cached ID destroys the cloud position for the object
         /// </remarks>
         /// <param name="anchoredObject">Existing GameObject reference of an object to move</param>
-        /// <param name="worldPos">New world position to move to</param>
-        /// <param name="worldRot">New rotation to apply</param>
-        /// <param name="cloudSpatialPersistenceID">Preexisting cloud SpatialPersistenceID</param>
+        /// <param name="position">New world position to move to</param>
+        /// <param name="rotation">New rotation to apply</param>
+        /// <param name="cloudAnchorID">Preexisting cloud SpatialPersistenceID</param>
         /// <returns></returns>
         bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID = new Guid());
 
@@ -91,9 +91,9 @@ namespace XRTK.Interfaces.SpatialPersistence
         #region Internal Cloud Anchor Provider Events
 
         /// <summary>
-        /// Event fired when the Cloud Provider has finished initialising
+        /// Event fired when the Cloud Provider has finished initializing
         /// </summary>
-        event Action SessionInitialised;
+        event Action SessionInitialized;
 
         /// <summary>
         /// Event fired when the Cloud Provider has begun searching for Anchors
@@ -116,7 +116,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action FindAnchorStarted;
 
         /// <summary>
-        /// Event fired when the Cloud Provider has deleted an Anchor. 
+        /// Event fired when the Cloud Provider has deleted an Anchor.
         /// </summary>
         event Action<Guid> AnchorDeleted;
 
@@ -135,7 +135,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<Guid, GameObject> CreateAnchorSucceeded;
 
         /// <summary>
-        /// Status message whilst the Spatial Persistence service is localising the Cloud Anchor in place, continues until complete or a failure occurs
+        /// Status message whilst the Spatial Persistence service is localizing the Cloud Anchor in place, continues until complete or a failure occurs
         /// </summary>
         event Action<string> SpatialPersistenceStatusMessage;
 
@@ -150,7 +150,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<Guid, GameObject> AnchorUpdated;
 
         /// <summary>
-        /// Location request to Spatial Persistence service successful and a localised Cloud Anchor was found and cached.
+        /// Location request to Spatial Persistence service successful and a localized Cloud Anchor was found and cached.
         /// </summary>
         event Action<Guid, GameObject> AnchorLocated;
 

@@ -18,23 +18,68 @@ namespace XRTK.Services.SpatialPersistence
         /// <inheritdoc />
         public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile)
             : base(profile)
-        { }
-
-        #region MonoBehaviours
-
-        public override void Destroy()
         {
-            foreach (var persistenceDataProvider in activeDataProviders)
-            {
-                persistenceDataProvider.StopSpatialPersistenceProvider();
-                SpatialPersistenceEvents(persistenceDataProvider, false);
-            }
-            base.Destroy();
         }
 
-        #endregion MonoBehaviours
-
         #region IMixedRealitySpatialPersistenceSystem Implementation
+
+        private readonly HashSet<IMixedRealitySpatialPersistenceDataProvider> activeDataProviders = new HashSet<IMixedRealitySpatialPersistenceDataProvider>();
+
+        /// <inheritdoc />
+        public IReadOnlyCollection<IMixedRealitySpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
+
+        /// <inheritdoc />
+        public bool RegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
+        {
+            if (activeDataProviders.Contains(provider))
+            {
+                return false;
+            }
+
+            activeDataProviders.Add(provider);
+            SpatialPersistenceEvents(provider, true);
+            provider.StartSpatialPersistenceProvider();
+            return true;
+        }
+
+        /// <inheritdoc />
+        public bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
+        {
+            if (!activeDataProviders.Contains(provider))
+            {
+                return false;
+            }
+
+            SpatialPersistenceEvents(provider, false);
+            activeDataProviders.Remove(provider);
+
+            return true;
+        }
+
+        private void SpatialPersistenceEvents(IMixedRealitySpatialPersistenceDataProvider provider, bool isRegistered)
+        {
+            if (activeDataProviders != null && activeDataProviders.Contains(provider))
+            {
+                if (isRegistered)
+                {
+                    provider.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
+                    provider.CreateAnchorFailed += OnCreateAnchorFailed;
+                    provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
+                    provider.AnchorUpdated += OnAnchorUpdated;
+                    provider.AnchorLocated += OnAnchorLocated;
+                    provider.SpatialPersistenceError += OnSpatialPersistenceError;
+                }
+                else
+                {
+                    provider.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
+                    provider.CreateAnchorFailed -= OnCreateAnchorFailed;
+                    provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
+                    provider.AnchorUpdated -= OnAnchorUpdated;
+                    provider.AnchorLocated -= OnAnchorLocated;
+                    provider.SpatialPersistenceError -= OnSpatialPersistenceError;
+                }
+            }
+        }
 
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
@@ -117,69 +162,5 @@ namespace XRTK.Services.SpatialPersistence
         public void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
 
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
-
-        #region BaseSystem Implementation
-
-        private readonly HashSet<IMixedRealitySpatialPersistenceDataProvider> activeDataProviders = new HashSet<IMixedRealitySpatialPersistenceDataProvider>();
-
-        /// <inheritdoc />
-        public IReadOnlyCollection<IMixedRealitySpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
-
-        /// <inheritdoc />
-        public bool RegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
-        {
-            if (activeDataProviders.Contains(provider))
-            {
-                return false;
-            }
-
-            activeDataProviders.Add(provider);
-            SpatialPersistenceEvents(provider, true);
-            provider.StartSpatialPersistenceProvider();
-            return true;
-        }
-
-        /// <inheritdoc />
-        public bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
-        {
-            if (!activeDataProviders.Contains(provider))
-            {
-                return false;
-            }
-
-            SpatialPersistenceEvents(provider, false);
-            activeDataProviders.Remove(provider);
-
-            return true;
-        }
-
-        private void SpatialPersistenceEvents(IMixedRealitySpatialPersistenceDataProvider provider, bool isRegistered)
-        {
-            if (activeDataProviders != null && activeDataProviders.Contains(provider))
-            {
-                if (isRegistered)
-                {
-                    provider.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
-                    provider.CreateAnchorFailed += OnCreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated += OnAnchorUpdated;
-                    provider.AnchorLocated += OnAnchorLocated;
-                    provider.SpatialPersistenceError += OnSpatialPersistenceError;
-                }
-                else
-                {
-                    provider.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
-                    provider.CreateAnchorFailed -= OnCreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated -= OnAnchorUpdated;
-                    provider.AnchorLocated -= OnAnchorLocated;
-                    provider.SpatialPersistenceError -= OnSpatialPersistenceError;
-                }
-            }
-        }
-
-
-
-        #endregion BaseSystem Implementation
     }
 }
