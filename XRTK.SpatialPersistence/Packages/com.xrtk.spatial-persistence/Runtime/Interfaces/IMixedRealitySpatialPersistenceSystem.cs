@@ -55,6 +55,12 @@ namespace XRTK.Interfaces.SpatialPersistence
         bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID);
 
         /// <summary>
+        /// Instruct the cloud provider to delete a collection of Cloud Anchors by their ID/UID
+        /// </summary>
+        /// <param name="ids"></param>
+        void TryDeleteAnchors(params Guid[] ids);
+
+        /// <summary>
         /// Clear the current cache of located Cloud Anchors from the provider services
         /// </summary>
         /// <returns></returns>

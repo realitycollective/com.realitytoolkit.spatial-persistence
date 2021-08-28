@@ -115,7 +115,7 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
-        public bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, Guid cloudAnchorID = new Guid())
+        public bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, Guid cloudAnchorID)
         {
             Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
 
@@ -128,6 +128,14 @@ namespace XRTK.Services.SpatialPersistence
             }
 
             return false;
+        }
+
+        public void TryDeleteAnchors(params Guid[] ids)
+        {
+            foreach (var persistenceDataProvider in activeDataProviders)
+            {
+                persistenceDataProvider.DeleteAnchors(ids);
+            }
         }
 
         public bool TryClearAnchorCache()
