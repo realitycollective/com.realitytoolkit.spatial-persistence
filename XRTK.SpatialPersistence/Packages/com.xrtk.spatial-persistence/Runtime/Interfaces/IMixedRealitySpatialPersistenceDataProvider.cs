@@ -2,6 +2,7 @@
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using XRTK.Definitions.SpatialPersistence;
 
@@ -39,6 +40,15 @@ namespace XRTK.Interfaces.SpatialPersistence
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
+        /// Create a cloud Anchor at a specified location
+        /// </summary>
+        /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout</param>
+        /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
+        Task<bool> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
+
+        /// <summary>
         /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID
         /// </summary>
         /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud SpatialPersistence platform to locate</param>
@@ -72,7 +82,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <param name="rotation">New rotation to apply</param>
         /// <param name="cloudAnchorID">Preexisting cloud SpatialPersistenceID</param>
         /// <returns></returns>
-        bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID = new Guid());
+        bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID);
 
         /// <summary>
         /// Instruct the cloud provider to delete a collection of Cloud Anchors by their ID/UID

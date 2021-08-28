@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using XRTK.Definitions.SpatialPersistence;
 using XRTK.Interfaces.SpatialPersistence;
@@ -89,6 +90,20 @@ namespace XRTK.Services.SpatialPersistence
             {
                 persistenceDataProvider.TryCreateAnchor(position, rotation, timeToLive);
             }
+        }
+
+        public async Task<bool> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
+        {
+            Debug.Assert(timeToLive == new DateTimeOffset(), "Lifetime of SpatialPersistence required");
+
+            var success = false;
+
+            foreach (var persistenceDataProvider in activeDataProviders)
+            {
+                success |= await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
+            }
+
+            return success;
         }
 
         public bool TryFindAnchorPoints(params Guid[] ids)

@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace XRTK.Interfaces.SpatialPersistence
@@ -26,6 +27,15 @@ namespace XRTK.Interfaces.SpatialPersistence
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
+        /// Create a cloud Anchor at a specified location using the selected prefab GameObject
+        /// </summary>
+        /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout</param>
+        /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
+        Task<bool> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
+
+        /// <summary>
         /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID
         /// </summary>
         /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud Anchor platform to locate</param>
@@ -42,7 +52,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <param name="rotation">Raycast rotation to move the prefab to and re-localize the Cloud Anchor</param>
         /// <param name="cloudAnchorID"><see cref="Guid"/> identifier for the cloud Anchor platform to place</param>
         /// <returns></returns>
-        bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID = new Guid());
+        bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID);
 
         /// <summary>
         /// Clear the current cache of located Cloud Anchors from the provider services
