@@ -92,39 +92,32 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
-        public async Task<bool> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
+        public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
             Debug.Assert(timeToLive == new DateTimeOffset(), "Lifetime of SpatialPersistence required");
 
-            var success = false;
-
             foreach (var persistenceDataProvider in activeDataProviders)
             {
-                success |= await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
+                return await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
             }
 
-            return success;
+            return Guid.Empty;
         }
 
-        public bool TryFindAnchorPoints(params Guid[] ids)
+        public void TryFindAnchorPoints(params Guid[] ids)
         {
             Debug.Assert(ids != null, "ID array is null");
             Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
 
             foreach (var persistenceDataProvider in activeDataProviders)
             {
-                if (persistenceDataProvider.TryFindAnchorPoints(ids))
-                {
-                    return true;
-                }
+                persistenceDataProvider.TryFindAnchorPoints(ids);
             }
-
-            return false;
         }
 
         public bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, Guid cloudAnchorID = new Guid())
         {
-            Debug.Assert(anchoredObject != null, "Currently SpatialPersistenceed GameObject reference required");
+            Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
 
             foreach (var persistenceDataProvider in activeDataProviders)
             {

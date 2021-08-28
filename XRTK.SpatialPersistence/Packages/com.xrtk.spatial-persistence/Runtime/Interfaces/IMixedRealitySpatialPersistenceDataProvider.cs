@@ -46,7 +46,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
         /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
-        Task<bool> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
+        Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
         /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID
@@ -54,7 +54,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud SpatialPersistence platform to locate</param>
         /// <returns>Returns true of the location request to the service was successful</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
-        bool TryFindAnchorPoints(params Guid[] ids);
+        void TryFindAnchorPoints(params Guid[] ids);
 
         /// <summary>
         /// Instruct the cloud provider to locate a collection of Cloud Anchors using a specific type of search, e.g. Nearby
@@ -62,7 +62,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <param name="searchType">The type of search to perform, specified by the <see cref="SpatialPersistenceSearchType"/> type</param>
         /// <returns>Returns true of the location request to the service was successful</returns>
         /// <remarks>Does not return Anchors, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
-        bool TryFindAnchorPoints(SpatialPersistenceSearchType searchType);
+        void TryFindAnchorPoints(SpatialPersistenceSearchType searchType);
 
         /// <summary>
         /// Does the selected GameObject currently have an Anchor attached
