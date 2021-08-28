@@ -139,27 +139,27 @@ namespace XRTK.Services.SpatialPersistence
 
         /// <inheritdoc />
         public event Action CreateAnchorFailed;
-        public void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
+        private void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> CreateAnchorSucceeded;
-        public void OnCreateAnchorSucceeded(Guid id, GameObject anchoredObject) => CreateAnchorSucceeded?.Invoke(id, anchoredObject);
+        private void OnCreateAnchorSucceeded(Guid id, GameObject anchoredObject) => CreateAnchorSucceeded?.Invoke(id, anchoredObject);
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceStatusMessage;
-        public void OnSpatialPersistenceStatusMessage(string message) => SpatialPersistenceStatusMessage?.Invoke(message);
+        private void OnSpatialPersistenceStatusMessage(string message) => SpatialPersistenceStatusMessage?.Invoke(message);
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceError;
-        public void OnSpatialPersistenceError(string exception) => SpatialPersistenceError?.Invoke(exception);
+        private void OnSpatialPersistenceError(string exception) => SpatialPersistenceError?.Invoke(exception);
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorUpdated;
-        public void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
+        private void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
 
         /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorLocated;
-        public void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
+        private void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
 
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
     }
