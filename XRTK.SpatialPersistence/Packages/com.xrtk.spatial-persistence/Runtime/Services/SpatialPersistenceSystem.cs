@@ -84,8 +84,6 @@ namespace XRTK.Services.SpatialPersistence
 
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            Debug.Assert(timeToLive == new DateTimeOffset(), "Lifetime of SpatialPersistence required");
-
             foreach (var persistenceDataProvider in activeDataProviders)
             {
                 persistenceDataProvider.TryCreateAnchor(position, rotation, timeToLive);
@@ -94,8 +92,6 @@ namespace XRTK.Services.SpatialPersistence
 
         public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            Debug.Assert(timeToLive == new DateTimeOffset(), "Lifetime of SpatialPersistence required");
-
             foreach (var persistenceDataProvider in activeDataProviders)
             {
                 return await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
