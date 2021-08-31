@@ -82,6 +82,7 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
+        /// <inheritdoc />
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
             foreach (var persistenceDataProvider in activeDataProviders)
@@ -90,6 +91,7 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
+        /// <inheritdoc />
         public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
             foreach (var persistenceDataProvider in activeDataProviders)
@@ -100,6 +102,7 @@ namespace XRTK.Services.SpatialPersistence
             return Guid.Empty;
         }
 
+        /// <inheritdoc />
         public void TryFindAnchorPoints(params Guid[] ids)
         {
             Debug.Assert(ids != null, "ID array is null");
@@ -111,6 +114,21 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
+        /// <inheritdoc />
+        public async Task<bool> TryFindAnchorPointsAsync(params Guid[] ids)
+        {
+            Debug.Assert(ids != null, "ID array is null");
+            Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
+
+            foreach (var persistenceDataProvider in activeDataProviders)
+            {
+                return await persistenceDataProvider.TryFindAnchorPointsAsync(ids);
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
         public bool TryMoveSpatialPersistence(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, Guid cloudAnchorID)
         {
             Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
@@ -126,6 +144,7 @@ namespace XRTK.Services.SpatialPersistence
             return false;
         }
 
+        /// <inheritdoc />
         public void TryDeleteAnchors(params Guid[] ids)
         {
             foreach (var persistenceDataProvider in activeDataProviders)
@@ -134,6 +153,7 @@ namespace XRTK.Services.SpatialPersistence
             }
         }
 
+        /// <inheritdoc />
         public bool TryClearAnchorCache()
         {
             var anyClear = false;

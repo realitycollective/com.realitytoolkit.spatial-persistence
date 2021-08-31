@@ -40,7 +40,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
-        /// Create a cloud Anchor at a specified location
+        /// Create a cloud Anchor at a specified location async
         /// </summary>
         /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
@@ -55,6 +55,14 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// <returns>Returns true of the location request to the service was successful</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
         void TryFindAnchorPoints(params Guid[] ids);
+
+        /// <summary>
+        /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID async
+        /// </summary>
+        /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud SpatialPersistence platform to locate</param>
+        /// <returns>Returns true of the location request to the service was successful</returns>
+        /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors</remarks>
+        Task<bool> TryFindAnchorPointsAsync(params Guid[] ids);
 
         /// <summary>
         /// Instruct the cloud provider to locate a collection of Cloud Anchors using a specific type of search, e.g. Nearby
