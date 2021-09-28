@@ -68,6 +68,7 @@ namespace XRTK.Services.SpatialPersistence
                     provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
                     provider.AnchorUpdated += OnAnchorUpdated;
                     provider.AnchorLocated += OnAnchorLocated;
+                    provider.AnchorLocatedError += OnAnchorLocatedError;
                     provider.SpatialPersistenceError += OnSpatialPersistenceError;
                 }
                 else
@@ -77,6 +78,7 @@ namespace XRTK.Services.SpatialPersistence
                     provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
                     provider.AnchorUpdated -= OnAnchorUpdated;
                     provider.AnchorLocated -= OnAnchorLocated;
+                    provider.AnchorLocatedError -= OnAnchorLocatedError;
                     provider.SpatialPersistenceError -= OnSpatialPersistenceError;
                 }
             }
@@ -192,6 +194,10 @@ namespace XRTK.Services.SpatialPersistence
         /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorLocated;
         private void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
+
+        /// <inheritdoc />
+        public event Action<Guid, string> AnchorLocatedError;
+        private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
 
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
     }
