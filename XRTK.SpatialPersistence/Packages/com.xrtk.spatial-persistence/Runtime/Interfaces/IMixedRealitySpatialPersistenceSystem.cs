@@ -27,7 +27,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
-        /// Create a cloud Anchor at a specified location async
+        /// Create a cloud Anchor at a specified location
         /// </summary>
         /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
@@ -44,7 +44,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         void TryFindAnchorPoints(params Guid[] ids);
 
         /// <summary>
-        /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID async
+        /// Instruct the cloud provider to locate a collection of Cloud Anchors by their ID/UID
         /// </summary>
         /// <param name="ids">Array of <see cref="Guid"/> identifiers for the cloud Anchor platform to locate</param>
         /// <returns>Returns true of the location request to the service was successful</returns>
