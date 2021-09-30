@@ -15,11 +15,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/XRTK/SpatialPersistence.git"
+    "url": "git+https://github.com/XRTK/com.xrtk.spatial-persistence.git"
   },
   "author": "XRTK Team (https://github.com/XRTK)",
   "dependencies": {
-    "com.xrtk.core": "0.3.0-preview.23"
+    "com.xrtk.core": "0.3.0-preview.29"
   },
   "profiles": [
     {
