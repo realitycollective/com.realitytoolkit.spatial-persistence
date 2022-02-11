@@ -1,9 +1,7 @@
 {
   "name": "com.realitytoolkit.spatial-persistence",
   "displayName": "RealityToolkit.SpatialPersistence",
-  "description": "The Spatial Persistence components for the Reality Toolkit.",
-  "version": "0.3.0-preview.14",
-  "unity": "2020.3",
+  "description": "The Spatial Persistence components for the Reality Toolkit by the Reality Collective.",
   "keywords": [
     "vr",
     "ar",
@@ -13,9 +11,11 @@
     "immersive",
     "unity"
   ],
+  "version": "1.0.0-preview.1",
+  "unity": "2020.2",
   "homepage": "https://github.com/realitycollective",
   "bugs": {
-    "url": "https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/issues"
+    "url": "https://github.com/realitycollective/realitytoolkit.dev/issues"
   },
   "license": "MIT",
   "repository": {
@@ -28,7 +28,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "0.3.0-preview.57"
+    "com.realitytoolkit.core": "1.0.0-preview.1"
   },
   "profiles": [
     {
