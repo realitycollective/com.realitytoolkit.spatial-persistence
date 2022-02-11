@@ -1,5 +1,5 @@
 {
-    "name": "XRTK.SpatialPersistence.Editor",
+    "name": "RealityToolkit.SpatialPersistence.Editor",
     "rootNamespace": "XRTK.SpatialPersistence.Editor",
     "references": [
         "GUID:f3241d040533491e8a1e2714b27c3111",
