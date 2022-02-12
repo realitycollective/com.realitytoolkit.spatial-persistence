@@ -30,10 +30,10 @@
   "dependencies": {
     "com.realitytoolkit.core": "1.0.0-preview.1"
   },
-  "profiles": [
+  "assets": [
     {
-      "displayName": "Default Profiles",
-      "path": "Profiles~/"
+      "displayName": "Default Assets",
+      "path": "Assets~/"
     }
   ]
 }
