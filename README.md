@@ -1,12 +1,33 @@
-# Spatial Persistence
+# Reality Toolkit - Spatial Persistence Module
 
-The Spatial Persistence package for the [XRTK - Mixed Reality Toolkit](https://github.com/XRTK/XRTK-Core).
+The Spatial Persistence package for the [Reality Toolkit](https://github.com/realitycollective/com.realitytoolkit.core).
 
-[![openupm](https://img.shields.io/npm/v/com.xrtk.spatial-persistence?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.xrtk.spatial-persistence/)
+Requires vendor data providers to deliver implementations, such as the [Azure Spatial Anchors provider here](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
 
-## Build Status
+## What's included?
+
+- Spatial Persistence system manager
+
+*Requires vendor specific providers to be added for operation (see above)
+
+## Requirements
+
+- [RealityToolkit.Core](https://github.com/realitycollective/com.realitytoolkit.core)
+- [Unity 2020.3 and above](https://unity.com/)
+
+## Getting Started
+
+- tbc
+
+### OpenUPM (coming soon)
+
+The simplest way to getting started using the Spatial Persistence package in your project is via OpenUPM. Visit [OpenUPM](https://openupm.com/docs/) to learn more about it. Once you have the OpenUPM CLI set up use the following command to add the package to your project:
+
+`openupm add com.realitytoolkit.spatial-persistence`
+
+# Build Status
 
 | branch | build status |
 | --- | --- |
-| main | [![main](https://github.com/XRTK/com.xrtk.spatial-persistence/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/XRTK/com.xrtk.spatial-persistence/actions/workflows/build.yml) |
-| development | [![development](https://github.com/XRTK/com.xrtk.spatial-persistence/actions/workflows/build.yml/badge.svg?branch=development)](https://github.com/XRTK/com.xrtk.spatial-persistence/actions/workflows/build.yml) |
+| main | [![main](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/actions/workflows/buildupmpackages.yml/badge.svg?branch=main)](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/actions/workflows/buildupmpackages.yml) |
+| development | [![development](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/actions/workflows/buildupmpackages.yml/badge.svg?branch=rcdevelopment)](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/actions/workflows/buildupmpackages.yml) |
