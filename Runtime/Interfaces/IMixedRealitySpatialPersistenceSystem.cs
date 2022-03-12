@@ -22,7 +22,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// </summary>
         /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
-        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpretted as being for an indefinite time period</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpreted as being for an indefinite time period</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
         void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
@@ -31,7 +31,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         /// </summary>
         /// <param name="position">Raycast position to place the prefab and localize the Cloud Anchor</param>
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Cloud Anchor</param>
-        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpretted as being for an indefinite time period</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Cloud Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpreted as being for an indefinite time period</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement</remarks>
         Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
