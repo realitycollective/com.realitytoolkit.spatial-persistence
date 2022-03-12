@@ -109,7 +109,7 @@ namespace XRTK.Interfaces.SpatialPersistence
         event Action<Guid, GameObject> AnchorLocated;
 
         /// <summary>
-        /// An error occured retrieving the selected Anchor and the data was invalid.
+        /// An error occurred retrieving the selected Anchor and the data was invalid.
         /// </summary>
         event Action<Guid, string> AnchorLocatedError;
 
