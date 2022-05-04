@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
+using RealityToolkit.Definitions.SpatialPersistence;
 using UnityEngine;
-using XRTK.Definitions.SpatialPersistence;
 
-namespace XRTK.Interfaces.SpatialPersistence
+namespace RealityToolkit.Interfaces.SpatialPersistence
 {
     /// <summary>
     /// Interface contract for specific identity provider implementations for use in the <see cref="IMixedRealitySpatialPersistenceSystem"/>.

@@ -1,11 +1,11 @@
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityToolkit.Definitions.SpatialPersistence;
+using RealityToolkit.Services;
 using UnityEditor;
-using XRTK.Definitions.SpatialPersistence;
-using XRTK.Services;
 
-namespace XRTK.Editor.Profiles.TeleportSystem
+namespace RealityToolkit.Editor.Profiles.TeleportSystem
 {
     /// <summary>
     /// Reserved for future use as more providers are added.

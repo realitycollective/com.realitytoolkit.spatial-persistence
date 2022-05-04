@@ -1,9 +1,9 @@
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using XRTK.Interfaces.SpatialPersistence;
+using RealityToolkit.Interfaces.SpatialPersistence;
 
-namespace XRTK.Definitions.SpatialPersistence
+namespace RealityToolkit.Definitions.SpatialPersistence
 {
     public class SpatialPersistenceSystemProfile : BaseMixedRealityServiceProfile<IMixedRealitySpatialPersistenceDataProvider>
     { }
