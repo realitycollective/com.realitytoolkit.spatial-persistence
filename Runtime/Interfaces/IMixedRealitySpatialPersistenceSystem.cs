@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace XRTK.Interfaces.SpatialPersistence
+namespace RealityToolkit.Interfaces.SpatialPersistence
 {
     /// <summary>
     /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration.
