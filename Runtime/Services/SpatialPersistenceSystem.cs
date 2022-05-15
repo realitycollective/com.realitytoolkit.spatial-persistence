@@ -1,11 +1,11 @@
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityToolkit.Definitions.SpatialPersistence;
+using RealityToolkit.Interfaces.SpatialPersistence;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RealityToolkit.Definitions.SpatialPersistence;
-using RealityToolkit.Interfaces.SpatialPersistence;
 using UnityEngine;
 
 namespace RealityToolkit.Services.SpatialPersistence
@@ -17,10 +17,9 @@ namespace RealityToolkit.Services.SpatialPersistence
     public class SpatialPersistenceSystem : BaseSystem, IMixedRealitySpatialPersistenceSystem
     {
         /// <inheritdoc />
-        public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile)
-            : base(profile)
-        {
-        }
+        public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile)
+            : base(name, priority, profile)
+        { }
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
 
