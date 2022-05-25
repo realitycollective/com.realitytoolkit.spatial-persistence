@@ -4,6 +4,7 @@
 using RealityToolkit.Definitions.SpatialPersistence;
 using System;
 using System.Threading.Tasks;
+using RealityToolkit.Definitions.SpatialPersistence;
 using UnityEngine;
 
 namespace RealityToolkit.Interfaces.SpatialPersistence
