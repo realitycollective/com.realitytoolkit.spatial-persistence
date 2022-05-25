@@ -1,14 +1,14 @@
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityToolkit.Definitions.SpatialPersistence;
+using RealityToolkit.Interfaces.SpatialPersistence;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using XRTK.Definitions.SpatialPersistence;
-using XRTK.Interfaces.SpatialPersistence;
 
-namespace XRTK.Services.SpatialPersistence
+namespace RealityToolkit.Services.SpatialPersistence
 {
     /// <summary>
     /// Concrete implementation of the <see cref="IMixedRealitySpatialPersistenceSystem"/>
