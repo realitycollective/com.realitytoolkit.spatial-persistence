@@ -5,7 +5,7 @@ using RealityToolkit.Definitions.SpatialPersistence;
 using RealityToolkit.Services;
 using UnityEditor;
 
-namespace RealityToolkit.Editor.Profiles.TeleportSystem
+namespace RealityToolkit.Editor.Profiles
 {
     /// <summary>
     /// Reserved for future use as more providers are added.
