@@ -6,8 +6,6 @@ using RealityToolkit.Interfaces.SpatialPersistence;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RealityToolkit.Definitions.SpatialPersistence;
-using RealityToolkit.Interfaces.SpatialPersistence;
 using UnityEngine;
 
 namespace RealityToolkit.Services.SpatialPersistence
