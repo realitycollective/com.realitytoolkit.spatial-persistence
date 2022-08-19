@@ -1,36 +1,38 @@
+// Copyright (c) Reality Collective. All rights reserved.
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.Definitions.SpatialPersistence;
-using RealityToolkit.Interfaces.SpatialPersistence;
+using RealityCollective.ServiceFramework.Services;
+using RealityToolkit.SpatialPersistence.Definitions;
+using RealityToolkit.SpatialPersistence.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace RealityToolkit.Services.SpatialPersistence
+namespace RealityToolkit.SpatialPersistence
 {
     /// <summary>
-    /// Concrete implementation of the <see cref="IMixedRealitySpatialPersistenceSystem"/>
+    /// Concrete implementation of the <see cref="ISpatialPersistenceSystem"/>
     /// </summary>
     [System.Runtime.InteropServices.Guid("C055102F-5204-42ED-A4D8-F80D129B6BBD")]
-    public class SpatialPersistenceSystem : BaseSystem, IMixedRealitySpatialPersistenceSystem
+    public class SpatialPersistenceSystem : BaseServiceWithConstructor, ISpatialPersistenceSystem
     {
         /// <inheritdoc />
-        public SpatialPersistenceSystem(SpatialPersistenceSystemProfile profile)
-            : base(profile)
+        public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile)
+            : base(name, priority)
         {
         }
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
 
-        private readonly HashSet<IMixedRealitySpatialPersistenceDataProvider> activeDataProviders = new HashSet<IMixedRealitySpatialPersistenceDataProvider>();
+        private readonly HashSet<ISpatialPersistenceDataProvider> activeDataProviders = new HashSet<ISpatialPersistenceDataProvider>();
 
         /// <inheritdoc />
-        public IReadOnlyCollection<IMixedRealitySpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
+        public IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
 
         /// <inheritdoc />
-        public bool RegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
+        public bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
         {
             if (activeDataProviders.Contains(provider))
             {
@@ -44,7 +46,7 @@ namespace RealityToolkit.Services.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider provider)
+        public bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
         {
             if (!activeDataProviders.Contains(provider))
             {
@@ -57,7 +59,7 @@ namespace RealityToolkit.Services.SpatialPersistence
             return true;
         }
 
-        private void SpatialPersistenceEvents(IMixedRealitySpatialPersistenceDataProvider provider, bool isRegistered)
+        private void SpatialPersistenceEvents(ISpatialPersistenceDataProvider provider, bool isRegistered)
         {
             if (activeDataProviders != null && activeDataProviders.Contains(provider))
             {

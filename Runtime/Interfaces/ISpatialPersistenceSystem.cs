@@ -1,19 +1,21 @@
+// Copyright (c) Reality Collective. All rights reserved.
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityCollective.ServiceFramework.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace RealityToolkit.Interfaces.SpatialPersistence
+namespace RealityToolkit.SpatialPersistence.Interfaces
 {
     /// <summary>
     /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration.
     /// </summary>
-    public interface IMixedRealitySpatialPersistenceSystem : IMixedRealitySystem
+    public interface ISpatialPersistenceSystem : IService
     {
-        IReadOnlyCollection<IMixedRealitySpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders { get; }
+        IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders { get; }
 
         #region Methods
 
@@ -116,17 +118,17 @@ namespace RealityToolkit.Interfaces.SpatialPersistence
         #endregion Events
 
         /// <summary>
-        /// Registers the <see cref="IMixedRealitySpatialPersistenceDataProvider"/> with the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
+        /// Registers the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>
-        bool RegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider dataProvider);
+        bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
 
         /// <summary>
-        /// UnRegisters the <see cref="IMixedRealitySpatialPersistenceDataProvider"/> with the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
+        /// UnRegisters the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>
-        bool UnRegisterSpatialPersistenceDataProvider(IMixedRealitySpatialPersistenceDataProvider dataProvider);
+        bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
     }
 }

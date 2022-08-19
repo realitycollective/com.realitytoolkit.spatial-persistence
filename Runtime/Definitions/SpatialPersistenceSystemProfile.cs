@@ -1,10 +1,11 @@
+// Copyright (c) Reality Collective. All rights reserved.
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.Interfaces.SpatialPersistence;
+using RealityCollective.ServiceFramework.Definitions;
+using RealityToolkit.SpatialPersistence.Interfaces;
 
-namespace RealityToolkit.Definitions.SpatialPersistence
+namespace RealityToolkit.SpatialPersistence.Definitions
 {
-    public class SpatialPersistenceSystemProfile : BaseMixedRealityServiceProfile<IMixedRealitySpatialPersistenceDataProvider>
-    { }
+    public class SpatialPersistenceSystemProfile : BaseServiceProfile<ISpatialPersistenceDataProvider> { }
 }

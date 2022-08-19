@@ -1,17 +1,19 @@
+// Copyright (c) Reality Collective. All rights reserved.
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.Definitions.SpatialPersistence;
+using RealityCollective.ServiceFramework.Interfaces;
+using RealityToolkit.SpatialPersistence.Definitions;
 using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace RealityToolkit.Interfaces.SpatialPersistence
+namespace RealityToolkit.SpatialPersistence.Interfaces
 {
     /// <summary>
-    /// Interface contract for specific identity provider implementations for use in the <see cref="IMixedRealitySpatialPersistenceSystem"/>.
+    /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceSystem"/>.
     /// </summary>
-    public interface IMixedRealitySpatialPersistenceDataProvider : IMixedRealityDataProvider
+    public interface ISpatialPersistenceDataProvider : IServiceDataProvider
     {
         /// <summary>
         /// Is the current Spatial Persistence provider running

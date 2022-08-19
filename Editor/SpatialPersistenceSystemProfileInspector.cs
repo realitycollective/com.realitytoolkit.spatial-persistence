@@ -1,17 +1,19 @@
+// Copyright (c) Reality Collective. All rights reserved.
 // Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityToolkit.Definitions.SpatialPersistence;
-using RealityToolkit.Services;
+using RealityCollective.ServiceFramework.Editor.Profiles;
+using RealityCollective.ServiceFramework.Services;
+using RealityToolkit.SpatialPersistence.Definitions;
 using UnityEditor;
 
-namespace RealityToolkit.Editor.Profiles
+namespace RealityToolkit.SpatialPersistence.Editor
 {
     /// <summary>
     /// Reserved for future use as more providers are added.
     /// </summary>
     [CustomEditor(typeof(SpatialPersistenceSystemProfile))]
-    public class MixedRealitySpatialPersistenceSystemProfileInspector : MixedRealityServiceProfileInspector
+    public class SpatialPersistenceSystemProfileInspector : ServiceProfileInspector
     {
         protected override void OnEnable()
         {
@@ -30,9 +32,10 @@ namespace RealityToolkit.Editor.Profiles
             serializedObject.ApplyModifiedProperties();
 
             if (EditorGUI.EndChangeCheck() &&
-                MixedRealityToolkit.IsInitialized)
+                ServiceManager.Instance != null &&
+                ServiceManager.Instance.IsInitialized)
             {
-                EditorApplication.delayCall += () => MixedRealityToolkit.Instance.ResetProfile(MixedRealityToolkit.Instance.ActiveProfile);
+                EditorApplication.delayCall += () => ServiceManager.Instance.ResetProfile(ServiceManager.Instance.ActiveProfile);
             }
 
             base.OnInspectorGUI();
