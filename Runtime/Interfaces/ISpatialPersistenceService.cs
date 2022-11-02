@@ -3,7 +3,6 @@
 
 using RealityCollective.ServiceFramework.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
     /// <summary>
     /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration.
     /// </summary>
-    public interface ISpatialPersistenceSystem : IService
+    public interface ISpatialPersistenceService : IService
     {
         #region Methods
         /// <summary>

@@ -7,39 +7,40 @@ using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.SpatialPersistence.Definitions;
 using RealityToolkit.SpatialPersistence.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
 namespace RealityToolkit.SpatialPersistence
 {
     /// <summary>
-    /// Concrete implementation of the <see cref="ISpatialPersistenceSystem"/>
+    /// Concrete implementation of the <see cref="ISpatialPersistenceService"/>
     /// </summary>
     [System.Runtime.InteropServices.Guid("C055102F-5204-42ED-A4D8-F80D129B6BBD")]
-    public class SpatialPersistenceSystem : BaseServiceWithConstructor, ISpatialPersistenceSystem
+    public class SpatialPersistenceService : BaseServiceWithConstructor, ISpatialPersistenceService
     {
+        #region Private Properties
         private AutoStartBehavior autoStartBehavior = AutoStartBehavior.AutoStart;
+        #endregion Private Properties
 
+        #region Constructor
         /// <inheritdoc />
-        public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile)
+        public SpatialPersistenceService(string name, uint priority, SpatialPersistenceServiceProfile profile)
             : base(name, priority)
         {
             autoStartBehavior = profile.autoStartBehavior;
         }
+        #endregion Constructor
 
         #region MonoBehaviours
-
         public override void Destroy()
         {
-            foreach (ISpatialPersistenceDataProvider persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
                 persistenceServiceModule.StopSpatialPersistenceProvider();
                 UnRegisterServiceModule(persistenceServiceModule);
             }
             base.Destroy();
         }
-
         #endregion MonoBehaviours
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
@@ -48,7 +49,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             if (ServiceModules.Count > 0)
             {
-                foreach (ISpatialPersistenceDataProvider spatialProvider in ServiceModules)
+                foreach (ISpatialPersistenceServiceModule spatialProvider in ServiceModules)
                 {
                     await spatialProvider.StartSpatialPersistenceProvider();
                 }
@@ -60,7 +61,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             if (ServiceModules.Count > 0)
             {
-                foreach (ISpatialPersistenceDataProvider spatialProvider in ServiceModules)
+                foreach (ISpatialPersistenceServiceModule spatialProvider in ServiceModules)
                 {
                     spatialProvider.StopSpatialPersistenceProvider();
                 }
@@ -70,7 +71,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (ISpatialPersistenceDataProvider persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
                 persistenceServiceModule.TryCreateAnchor(position, rotation, timeToLive);
             }
@@ -79,7 +80,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 return await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
             }
@@ -93,7 +94,7 @@ namespace RealityToolkit.SpatialPersistence
             Debug.Assert(ids != null, "ID array is null");
             Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
 
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 persistenceDataProvider.TryFindAnchorPoints(ids);
             }
@@ -105,7 +106,7 @@ namespace RealityToolkit.SpatialPersistence
             Debug.Assert(ids != null, "ID array is null");
             Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
 
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 return await persistenceDataProvider.TryFindAnchorPointsAsync(ids);
             }
@@ -118,7 +119,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
 
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 if (persistenceDataProvider.TryMoveSpatialPersistence(anchoredObject, worldPos, worldRot, cloudAnchorID))
                 {
@@ -132,7 +133,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public void TryDeleteAnchors(params Guid[] ids)
         {
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 persistenceDataProvider.DeleteAnchors(ids);
             }
@@ -143,7 +144,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             var anyClear = false;
 
-            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceDataProvider in ServiceModules)
             {
                 if (persistenceDataProvider.TryClearAnchorCache())
                 {
@@ -181,33 +182,32 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public event Action<Guid, string> AnchorLocatedError;
         private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
-
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
 
-        #region BaseSystem Implementation
+        #region BaseService Implementation
         /// <inheritdoc />
         public override void RegisterServiceModule(IServiceModule serviceModule)
         {
             base.RegisterServiceModule(serviceModule);
 
-            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceDataProvider, true);
+            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceServiceModule, true);
             if (autoStartBehavior == AutoStartBehavior.AutoStart)
             {
-                (serviceModule as ISpatialPersistenceDataProvider).StartSpatialPersistenceProvider();
+                (serviceModule as ISpatialPersistenceServiceModule).StartSpatialPersistenceProvider();
             }
         }
 
         /// <inheritdoc />
         public override void UnRegisterServiceModule(IServiceModule serviceModule)
         {
-            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceDataProvider, false);
-            (serviceModule as ISpatialPersistenceDataProvider).StopSpatialPersistenceProvider();
+            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceServiceModule, false);
+            (serviceModule as ISpatialPersistenceServiceModule).StopSpatialPersistenceProvider();
             base.UnRegisterServiceModule(serviceModule);
         }
-        #endregion BaseSystem Implementation
+        #endregion BaseService Implementation
 
         #region Private Functions
-        private void SpatialPersistenceEvents(ISpatialPersistenceDataProvider provider, bool registerEvents)
+        private void SpatialPersistenceEvents(ISpatialPersistenceServiceModule provider, bool registerEvents)
         {
             if (registerEvents)
             {

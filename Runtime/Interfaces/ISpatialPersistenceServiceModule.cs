@@ -10,14 +10,16 @@ using UnityEngine;
 namespace RealityToolkit.SpatialPersistence.Interfaces
 {
     /// <summary>
-    /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceSystem"/>.
+    /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceService"/>.
     /// </summary>
-    public interface ISpatialPersistenceDataProvider : IServiceModule
+    public interface ISpatialPersistenceServiceModule : IServiceModule
     {
+        #region Public Properties
         /// <summary>
         /// Is the current Spatial Persistence provider running
         /// </summary>
         bool IsRunning { get; }
+        #endregion Public Properties
 
         #region Public Methods
 

@@ -32,5 +32,8 @@
       "displayName": "Default Assets",
       "path": "Assets~/"
     }
-  ]
+  ],
+  "dependencies": {
+    "com.realitycollective.service-framework": "1.0.0"
+  }
 }

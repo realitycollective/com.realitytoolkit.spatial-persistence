@@ -4,11 +4,14 @@
 using RealityCollective.Definitions.Utilities;
 using RealityCollective.ServiceFramework.Definitions;
 using RealityToolkit.SpatialPersistence.Interfaces;
+using UnityEngine;
 
 namespace RealityToolkit.SpatialPersistence.Definitions
 {
-    public class SpatialPersistenceSystemProfile : BaseServiceProfile<ISpatialPersistenceDataProvider> 
+    public class SpatialPersistenceServiceProfile : BaseServiceProfile<ISpatialPersistenceServiceModule> 
     {
+        [Header("Settings")]
+        [Tooltip("Should the service start automatically or manually when required (from a second scene).")]
         public AutoStartBehavior autoStartBehavior;
     }
 }
