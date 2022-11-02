@@ -1,5 +1,4 @@
 // Copyright (c) Reality Collective. All rights reserved.
-// Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Interfaces;
@@ -15,9 +14,16 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
     /// </summary>
     public interface ISpatialPersistenceSystem : IService
     {
-        IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders { get; }
-
         #region Methods
+        /// <summary>
+        /// Command the SpatialPersistence service to connect and enter a running state
+        /// </summary>
+        Task StartSpatialPersistenceService();
+
+        /// <summary>
+        /// Command the SpatialPersistence service to stop and disconnect from its cloud backend
+        /// </summary>
+        void StopSpatialPersistenceService();
 
         /// <summary>
         /// Create a cloud Anchor at a specified location
@@ -116,19 +122,5 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         event Action<Guid, string> AnchorLocatedError;
 
         #endregion Events
-
-        /// <summary>
-        /// Registers the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
-        /// </summary>
-        /// <param name="dataProvider"></param>
-        /// <returns></returns>
-        bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
-
-        /// <summary>
-        /// UnRegisters the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
-        /// </summary>
-        /// <param name="dataProvider"></param>
-        /// <returns></returns>
-        bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
     }
 }

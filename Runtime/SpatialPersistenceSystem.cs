@@ -1,7 +1,8 @@
 // Copyright (c) Reality Collective. All rights reserved.
-// Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityCollective.Definitions.Utilities;
+using RealityCollective.ServiceFramework.Interfaces;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.SpatialPersistence.Definitions;
 using RealityToolkit.SpatialPersistence.Interfaces;
@@ -18,70 +19,50 @@ namespace RealityToolkit.SpatialPersistence
     [System.Runtime.InteropServices.Guid("C055102F-5204-42ED-A4D8-F80D129B6BBD")]
     public class SpatialPersistenceSystem : BaseServiceWithConstructor, ISpatialPersistenceSystem
     {
+        private AutoStartBehavior autoStartBehavior = AutoStartBehavior.AutoStart;
+
         /// <inheritdoc />
         public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile)
             : base(name, priority)
         {
+            autoStartBehavior = profile.autoStartBehavior;
         }
+
+        #region MonoBehaviours
+
+        public override void Destroy()
+        {
+            foreach (ISpatialPersistenceDataProvider persistenceServiceModule in ServiceModules)
+            {
+                persistenceServiceModule.StopSpatialPersistenceProvider();
+                UnRegisterServiceModule(persistenceServiceModule);
+            }
+            base.Destroy();
+        }
+
+        #endregion MonoBehaviours
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
-
-        private readonly HashSet<ISpatialPersistenceDataProvider> activeDataProviders = new HashSet<ISpatialPersistenceDataProvider>();
-
         /// <inheritdoc />
-        public IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
-
-        /// <inheritdoc />
-        public bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
+        public async Task StartSpatialPersistenceService()
         {
-            if (activeDataProviders.Contains(provider))
+            if (ServiceModules.Count > 0)
             {
-                return false;
-            }
-
-            activeDataProviders.Add(provider);
-            SpatialPersistenceEvents(provider, true);
-            provider.StartSpatialPersistenceProvider();
-            return true;
-        }
-
-        /// <inheritdoc />
-        public bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
-        {
-            if (!activeDataProviders.Contains(provider))
-            {
-                return false;
-            }
-
-            SpatialPersistenceEvents(provider, false);
-            activeDataProviders.Remove(provider);
-
-            return true;
-        }
-
-        private void SpatialPersistenceEvents(ISpatialPersistenceDataProvider provider, bool isRegistered)
-        {
-            if (activeDataProviders != null && activeDataProviders.Contains(provider))
-            {
-                if (isRegistered)
+                foreach (ISpatialPersistenceDataProvider spatialProvider in ServiceModules)
                 {
-                    provider.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
-                    provider.CreateAnchorFailed += OnCreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated += OnAnchorUpdated;
-                    provider.AnchorLocated += OnAnchorLocated;
-                    provider.AnchorLocatedError += OnAnchorLocatedError;
-                    provider.SpatialPersistenceError += OnSpatialPersistenceError;
+                    await spatialProvider.StartSpatialPersistenceProvider();
                 }
-                else
+            }
+        }
+
+        /// <inheritdoc />
+        public void StopSpatialPersistenceService()
+        {
+            if (ServiceModules.Count > 0)
+            {
+                foreach (ISpatialPersistenceDataProvider spatialProvider in ServiceModules)
                 {
-                    provider.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
-                    provider.CreateAnchorFailed -= OnCreateAnchorFailed;
-                    provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
-                    provider.AnchorUpdated -= OnAnchorUpdated;
-                    provider.AnchorLocated -= OnAnchorLocated;
-                    provider.AnchorLocatedError -= OnAnchorLocatedError;
-                    provider.SpatialPersistenceError -= OnSpatialPersistenceError;
+                    spatialProvider.StopSpatialPersistenceProvider();
                 }
             }
         }
@@ -89,16 +70,16 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceServiceModule in ServiceModules)
             {
-                persistenceDataProvider.TryCreateAnchor(position, rotation, timeToLive);
+                persistenceServiceModule.TryCreateAnchor(position, rotation, timeToLive);
             }
         }
 
         /// <inheritdoc />
         public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 return await persistenceDataProvider.TryCreateAnchorAsync(position, rotation, timeToLive);
             }
@@ -112,7 +93,7 @@ namespace RealityToolkit.SpatialPersistence
             Debug.Assert(ids != null, "ID array is null");
             Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
 
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 persistenceDataProvider.TryFindAnchorPoints(ids);
             }
@@ -124,7 +105,7 @@ namespace RealityToolkit.SpatialPersistence
             Debug.Assert(ids != null, "ID array is null");
             Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
 
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 return await persistenceDataProvider.TryFindAnchorPointsAsync(ids);
             }
@@ -137,7 +118,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
 
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 if (persistenceDataProvider.TryMoveSpatialPersistence(anchoredObject, worldPos, worldRot, cloudAnchorID))
                 {
@@ -151,7 +132,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public void TryDeleteAnchors(params Guid[] ids)
         {
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 persistenceDataProvider.DeleteAnchors(ids);
             }
@@ -162,7 +143,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             var anyClear = false;
 
-            foreach (var persistenceDataProvider in activeDataProviders)
+            foreach (ISpatialPersistenceDataProvider persistenceDataProvider in ServiceModules)
             {
                 if (persistenceDataProvider.TryClearAnchorCache())
                 {
@@ -202,5 +183,53 @@ namespace RealityToolkit.SpatialPersistence
         private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
 
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
+
+        #region BaseSystem Implementation
+        /// <inheritdoc />
+        public override void RegisterServiceModule(IServiceModule serviceModule)
+        {
+            base.RegisterServiceModule(serviceModule);
+
+            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceDataProvider, true);
+            if (autoStartBehavior == AutoStartBehavior.AutoStart)
+            {
+                (serviceModule as ISpatialPersistenceDataProvider).StartSpatialPersistenceProvider();
+            }
+        }
+
+        /// <inheritdoc />
+        public override void UnRegisterServiceModule(IServiceModule serviceModule)
+        {
+            SpatialPersistenceEvents(serviceModule as ISpatialPersistenceDataProvider, false);
+            (serviceModule as ISpatialPersistenceDataProvider).StopSpatialPersistenceProvider();
+            base.UnRegisterServiceModule(serviceModule);
+        }
+        #endregion BaseSystem Implementation
+
+        #region Private Functions
+        private void SpatialPersistenceEvents(ISpatialPersistenceDataProvider provider, bool registerEvents)
+        {
+            if (registerEvents)
+            {
+                provider.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
+                provider.CreateAnchorFailed += OnCreateAnchorFailed;
+                provider.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
+                provider.AnchorUpdated += OnAnchorUpdated;
+                provider.AnchorLocated += OnAnchorLocated;
+                provider.AnchorLocatedError += OnAnchorLocatedError;
+                provider.SpatialPersistenceError += OnSpatialPersistenceError;
+            }
+            else
+            {
+                provider.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
+                provider.CreateAnchorFailed -= OnCreateAnchorFailed;
+                provider.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
+                provider.AnchorUpdated -= OnAnchorUpdated;
+                provider.AnchorLocated -= OnAnchorLocated;
+                provider.AnchorLocatedError -= OnAnchorLocatedError;
+                provider.SpatialPersistenceError -= OnSpatialPersistenceError;
+            }
+        }
+        #endregion Private Functions
     }
 }

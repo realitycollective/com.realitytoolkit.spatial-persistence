@@ -27,9 +27,6 @@
     "email": "realitycollectivedev@gmail.com",
     "url": "https://github.com/realitycollective"
   },
-  "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-preview.6"
-  },
   "assets": [
     {
       "displayName": "Default Assets",

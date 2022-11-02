@@ -1,5 +1,4 @@
 // Copyright (c) Reality Collective. All rights reserved.
-// Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Interfaces;
@@ -13,7 +12,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
     /// <summary>
     /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceSystem"/>.
     /// </summary>
-    public interface ISpatialPersistenceDataProvider : IServiceDataProvider
+    public interface ISpatialPersistenceDataProvider : IServiceModule
     {
         /// <summary>
         /// Is the current Spatial Persistence provider running
@@ -25,7 +24,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <summary>
         /// Command the SpatialPersistence service to connect and enter a running state
         /// </summary>
-        void StartSpatialPersistenceProvider();
+        Task StartSpatialPersistenceProvider();
 
         /// <summary>
         /// Command the SpatialPersistence service to stop and disconnect from its cloud backend
