@@ -7,7 +7,7 @@ using UnityEngine;
 namespace RealityToolkit.SpatialPersistence.Editor
 {
     /// <summary>
-    /// Dummy scriptable object used to find the relative path of the com.xrtk.spatial-persistence.
+    /// Dummy scriptable object used to find the relative path of the RealityToolkit.SpatialPersistence package.
     /// </summary>
     ///// <inheritdoc cref="IPathFinder" />
     public class SpatialPersistencePathFinder : ScriptableObject, IPathFinder

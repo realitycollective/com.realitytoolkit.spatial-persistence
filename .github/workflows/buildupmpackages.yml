@@ -17,7 +17,7 @@ concurrency:
 # Example flow
 
 jobs:
-  # Check Unity version requird by the package
+  # Check Unity version required by the package
   validate-environment:
     name: Get Unity Version from UPM package
     uses: realitycollective/reusableworkflows/.github/workflows/getunityversionfrompackage.yml@main
@@ -33,16 +33,6 @@ jobs:
       build-target: windows
       unityversion: ${{ needs.validate-environment.outputs.unityversion }}
 
-  # Install the Unity editor if not available
-  Install-Unity-Editor:
-    if: ${{ needs.Setup-Unity.outputs.unityeditorinstalled }}  == '0'
-    needs: Setup-Unity
-    uses: realitycollective/reusableworkflows/.github/workflows/installunityeditor.yml@main
-    name: Install Unity Editor
-    with:
-      build-target: windows
-      unityversion: ${{ needs.Setup-Unity.outputs.unityeditorversion }}      
-
   # Run Unity unit tests defined in the package
   Run-Unit-Tests:
     name: Run Unity Unit Tests
@@ -51,7 +41,7 @@ jobs:
     with:
       build-target: windows
       unityversion: ${{ needs.Setup-Unity.outputs.unityeditorversion }}
-      dependencies: '[{"development": "github.com/realitycollective/com.realitycollective.buildtools.git"},{"development": "github.com/realitycollective/com.realitytoolkit.core.git"},{"development": "github.com/realitycollective/com.realitycollective.utilities.git"},{"development": "github.com/realitycollective/com.realitytoolkit.service-framework.git"}]'
+      dependencies: '[{"development": "github.com/realitycollective/com.realitycollective.buildtools.git"},{"development": "github.com/realitycollective/com.realitycollective.utilities.git"},{"development": "github.com/realitycollective/com.realitytoolkit.service-framework.git"}]'
     secrets:
       GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
       GIT_PAT: ${{ secrets.GIT_PAT }}
