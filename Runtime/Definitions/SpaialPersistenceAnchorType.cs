@@ -6,7 +6,7 @@ namespace RealityToolkit.SpatialPersistence
     /// <summary>
     /// How does the Spatial Persistence module locate its anchors?
     /// </summary>
-    public enum SpaialPersistenceTrackingType
+    public enum SpatialPersistenceTrackingType
     {
         NotSupported = 0,
         CloudAnchor = 1,

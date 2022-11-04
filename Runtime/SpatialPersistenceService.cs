@@ -70,7 +70,7 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public bool TryGetModulesByTrackingType(SpaialPersistenceTrackingType trackingType, out ISpatialPersistenceServiceModule[] modules)
+        public bool TryGetModulesByTrackingType(SpatialPersistenceTrackingType trackingType, out ISpatialPersistenceServiceModule[] modules)
         {
             var foundModules = new List<ISpatialPersistenceServiceModule>();
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)

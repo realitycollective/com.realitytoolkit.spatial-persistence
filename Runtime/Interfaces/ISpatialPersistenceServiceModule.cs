@@ -24,9 +24,9 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// The anchor tracking method of spatial persistence service.
         /// </summary>
         /// <remarks>
-        /// Be careful of registering more that one of each <see cref="SpaialPersistenceTrackingType"/>, as this could cause conflicts.
+        /// Be careful of registering more that one of each <see cref="SpatialPersistenceTrackingType"/>, as this could cause conflicts.
         /// </remarks>
-        SpaialPersistenceTrackingType TrackingType { get; }
+        SpatialPersistenceTrackingType TrackingType { get; }
         #endregion Public Properties
 
         #region Public Methods

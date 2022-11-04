@@ -29,9 +29,9 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// Get all the currently registered modules utilizing the same tracking type.
         /// </summary>
         /// <param name="trackingType">How does the Spatial Persistence module locate its anchors?</param>
-        /// <param name="modules">Array of <see cref="ISpatialPersistenceServiceModule"/> modules that implement the selected <see cref="SpaialPersistenceTrackingType"/>.</param>
+        /// <param name="modules">Array of <see cref="ISpatialPersistenceServiceModule"/> modules that implement the selected <see cref="SpatialPersistenceTrackingType"/>.</param>
         /// <returns>Returns true of there are modules registered of the selected type.</returns>
-        bool TryGetModulesByTrackingType(SpaialPersistenceTrackingType trackingType, out ISpatialPersistenceServiceModule[] modules);
+        bool TryGetModulesByTrackingType(SpatialPersistenceTrackingType trackingType, out ISpatialPersistenceServiceModule[] modules);
 
         /// <summary>
         /// Create an Anchor at a specified location.

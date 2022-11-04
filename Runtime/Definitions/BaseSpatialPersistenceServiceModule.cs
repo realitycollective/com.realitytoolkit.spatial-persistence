@@ -23,7 +23,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public virtual bool IsRunning => false;
 
-        public virtual SpaialPersistenceTrackingType TrackingType => SpaialPersistenceTrackingType.NotSupported;
+        public virtual SpatialPersistenceTrackingType TrackingType => SpatialPersistenceTrackingType.NotSupported;
 
         /// <inheritdoc />
         public virtual void DeleteAnchors(params Guid[] ids) { }
