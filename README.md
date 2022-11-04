@@ -2,13 +2,13 @@
 
 The Spatial Persistence Service package for building anchored solutions, built upon the Reality Collective [Service Framework](https://github.com/realitycollective/com.realitycollective.service-framework).
 
-Requires vendor data providers to deliver implementations, such as the [Azure Spatial Anchors provider here](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
+Requires vendor service modules to deliver implementations, such as the [Azure Spatial Anchors module here](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
 
 ## What's included?
 
 - Spatial Persistence system manager
 
-*Requires vendor specific providers to be added for operation (see above)
+*Requires vendor specific APIs to be added for operation (see above)
 
 ## Requirements
 
