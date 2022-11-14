@@ -160,11 +160,6 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// </summary>
         event Action FindAnchorStarted;
 
-        /// <summary>
-        /// Event fired when the Vendor Solution has deleted an Anchor.
-        /// </summary>
-        event Action<Guid> AnchorDeleted;
-
         #endregion Internal Anchor Module Events
 
         #region Spatial Persistence Service Events
@@ -190,11 +185,6 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         event Action<string> SpatialPersistenceError;
 
         /// <summary>
-        /// Notification that the vendor solution has performed an operation on an object in the scene
-        /// </summary>
-        event Action<Guid, GameObject> AnchorUpdated;
-
-        /// <summary>
         /// Location request to Spatial Persistence service successful and a localized Anchor was found and cached.
         /// </summary>
         event Action<Guid, GameObject> AnchorLocated;
@@ -204,6 +194,15 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// </summary>
         event Action<Guid, string> AnchorLocatedError;
 
+        /// <summary>
+        /// Notification that the vendor solution has performed an operation on an object in the scene
+        /// </summary>
+        event Action<Guid, GameObject> AnchorUpdated;
+
+        /// <summary>
+        /// Event fired when the Vendor Solution has deleted an Anchor.
+        /// </summary>
+        event Action<Guid> AnchorDeleted;
         #endregion Spatial Persistence Service Events
     }
 }

@@ -10,5 +10,11 @@ namespace RealityToolkit.SpatialPersistence
     {
         public Guid guid;
         public Texture2D texture;
+
+        public SpatialPersistenceAnchorArgs(Guid guid, Texture2D texture)
+        {
+            this.guid = guid;
+            this.texture = texture;
+        }
     }
 }

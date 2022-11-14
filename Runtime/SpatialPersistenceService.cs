@@ -220,16 +220,21 @@ namespace RealityToolkit.SpatialPersistence
         private void OnSpatialPersistenceError(string exception) => SpatialPersistenceError?.Invoke(exception);
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorUpdated;
-        private void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
-
-        /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorLocated;
         private void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
 
         /// <inheritdoc />
         public event Action<Guid, string> AnchorLocatedError;
         private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
+
+        /// <inheritdoc />
+        public event Action<Guid, GameObject> AnchorUpdated;
+        private void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
+
+        /// <inheritdoc />
+        public event Action<Guid> AnchorDeleted;
+        private void OnAnchorDeleted(Guid id) => AnchorDeleted?.Invoke(id);
+
         #endregion IMixedRealitySpatialPersistenceSystem Implementation
 
         #region BaseService Implementation
@@ -262,9 +267,10 @@ namespace RealityToolkit.SpatialPersistence
                 module.CreateAnchorSucceeded += OnCreateAnchorSucceeded;
                 module.CreateAnchorFailed += OnCreateAnchorFailed;
                 module.SpatialPersistenceStatusMessage += OnSpatialPersistenceStatusMessage;
-                module.AnchorUpdated += OnAnchorUpdated;
                 module.AnchorLocated += OnAnchorLocated;
                 module.AnchorLocatedError += OnAnchorLocatedError;
+                module.AnchorUpdated += OnAnchorUpdated;
+                module.AnchorDeleted += OnAnchorDeleted;
                 module.SpatialPersistenceError += OnSpatialPersistenceError;
             }
             else
@@ -272,9 +278,10 @@ namespace RealityToolkit.SpatialPersistence
                 module.CreateAnchorSucceeded -= OnCreateAnchorSucceeded;
                 module.CreateAnchorFailed -= OnCreateAnchorFailed;
                 module.SpatialPersistenceStatusMessage -= OnSpatialPersistenceStatusMessage;
-                module.AnchorUpdated -= OnAnchorUpdated;
                 module.AnchorLocated -= OnAnchorLocated;
                 module.AnchorLocatedError -= OnAnchorLocatedError;
+                module.AnchorUpdated -= OnAnchorUpdated;
+                module.AnchorDeleted -= OnAnchorDeleted;
                 module.SpatialPersistenceError -= OnSpatialPersistenceError;
             }
         }

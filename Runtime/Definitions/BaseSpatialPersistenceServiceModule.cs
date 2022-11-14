@@ -119,22 +119,17 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public event Action FindAnchorStarted;
 
-        /// <inheritdoc />
-        public event Action<Guid> AnchorDeleted;
-
         #region Handlers
         public void OnSessionInitialized() => SessionInitialized?.Invoke();
         public void OnSessionStarted() => SessionStarted?.Invoke();
         public void OnSessionEnded() => SessionEnded?.Invoke();
         public void OnCreateAnchorStarted() => CreateAnchorStarted?.Invoke();
         public void OnFindAnchorStarted() => FindAnchorStarted?.Invoke();
-        public void OnAnchorDeleted(Guid guid) => AnchorDeleted?.Invoke(guid);
         #endregion Handlers
 
         #endregion Service Module Events
 
         #region Service Events
-
         /// <inheritdoc />
         public event Action CreateAnchorFailed;
 
@@ -148,22 +143,26 @@ namespace RealityToolkit.SpatialPersistence
         public event Action<string> SpatialPersistenceError;
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorUpdated;
-
-        /// <inheritdoc />
         public event Action<Guid, GameObject> AnchorLocated;
 
         /// <inheritdoc />
         public event Action<Guid, string> AnchorLocatedError;
+
+        /// <inheritdoc />
+        public event Action<Guid, GameObject> AnchorUpdated;
+
+        /// <inheritdoc />
+        public event Action<Guid> AnchorDeleted;
 
         #region Handlers
         public void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
         public void OnCreateAnchorSucceeded(Guid guid, GameObject target) => CreateAnchorSucceeded?.Invoke(guid, target);
         public void OnSpatialPersistenceStatusMessage(string message) => SpatialPersistenceStatusMessage?.Invoke(message);
         public void OnSpatialPersistenceError(string message) => SpatialPersistenceError?.Invoke(message);
-        public void OnAnchorUpdated(Guid guid, GameObject target) => AnchorUpdated?.Invoke(guid, target);
         public void OnAnchorLocated(Guid guid, GameObject target) => AnchorLocated?.Invoke(guid, target);
         public void OnAnchorLocatedError(Guid guid, string message) => AnchorLocatedError?.Invoke(guid, message);
+        public void OnAnchorUpdated(Guid guid, GameObject target) => AnchorUpdated?.Invoke(guid, target);
+        public void OnAnchorDeleted(Guid guid) => AnchorDeleted?.Invoke(guid);
         #endregion Handlers
 
         #endregion Service Events

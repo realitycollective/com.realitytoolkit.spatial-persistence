@@ -62,7 +62,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <summary>
         /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID.
         /// </summary>
-        /// <param name="ids">Array of <see cref="Guid"/> identifiers for the SpatialPersistence platform to locate.</param>
+        /// <param name="ids">Array of <see cref="SpatialPersistenceAnchorArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
         /// <returns>Returns true of the location request to the service was successful.</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
         void TryFindAnchors(params SpatialPersistenceAnchorArgs[] args);
@@ -86,7 +86,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <summary>
         /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID ID/UID async.
         /// </summary>
-        /// <param name="ids">Array of <see cref="Guid"/> identifiers for the SpatialPersistence platform to locate.</param>
+        /// <param name="ids">Array of  <see cref="SpatialPersistenceAnchorArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
         /// <returns>Returns true of the location request to the service was successful.</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
         Task<bool> TryFindAnchorsAsync(params SpatialPersistenceAnchorArgs[] args);
@@ -139,11 +139,6 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         event Action<string> SpatialPersistenceError;
 
         /// <summary>
-        /// Notification that the vendor solution has performed an operation on an object in the scene
-        /// </summary>
-        event Action<Guid, GameObject> AnchorUpdated;
-
-        /// <summary>
         /// Location request to Spatial Persistence service successful and a localized Anchor was found and cached.
         /// </summary>
         event Action<Guid, GameObject> AnchorLocated;
@@ -153,6 +148,15 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// </summary>
         event Action<Guid, string> AnchorLocatedError;
 
+        /// <summary>
+        /// Notification that the vendor solution has performed an operation on an object in the scene
+        /// </summary>
+        event Action<Guid, GameObject> AnchorUpdated;
+
+        /// <summary>
+        /// Notification that the vendor solution has stopped tracking an object in the scene
+        /// </summary>
+        event Action<Guid> AnchorDeleted;
         #endregion Events
     }
 }
