@@ -13,7 +13,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
     /// <summary>
     /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceSystem"/>.
     /// </summary>
-    public interface ISpatialPersistenceDataProvider : IServiceDataProvider
+    public interface ISpatialPersistenceDataProvider : IServiceModule
     {
         /// <summary>
         /// Is the current Spatial Persistence provider running
