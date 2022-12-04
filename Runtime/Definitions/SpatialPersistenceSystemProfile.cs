@@ -7,5 +7,5 @@ using RealityToolkit.SpatialPersistence.Interfaces;
 
 namespace RealityToolkit.SpatialPersistence.Definitions
 {
-    public class SpatialPersistenceSystemProfile : BaseServiceProfile<ISpatialPersistenceDataProvider> { }
+    public class SpatialPersistenceSystemProfile : BaseServiceProfile<ISpatialPersistenceServiceModule> { }
 }
