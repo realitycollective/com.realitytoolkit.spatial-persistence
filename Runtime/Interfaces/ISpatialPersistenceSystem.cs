@@ -15,7 +15,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
     /// </summary>
     public interface ISpatialPersistenceSystem : IService
     {
-        IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders { get; }
+        IReadOnlyCollection<ISpatialPersistenceServiceModule> ActiveSpatialPersistenceProviders { get; }
 
         #region Methods
 
@@ -118,17 +118,17 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         #endregion Events
 
         /// <summary>
-        /// Registers the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
+        /// Registers the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceSystem"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>
-        bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
+        bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceServiceModule dataProvider);
 
         /// <summary>
-        /// UnRegisters the <see cref="ISpatialPersistenceDataProvider"/> with the <see cref="ISpatialPersistenceSystem"/>.
+        /// UnRegisters the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceSystem"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>
-        bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider dataProvider);
+        bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceServiceModule dataProvider);
     }
 }

@@ -26,13 +26,13 @@ namespace RealityToolkit.SpatialPersistence
 
         #region IMixedRealitySpatialPersistenceSystem Implementation
 
-        private readonly HashSet<ISpatialPersistenceDataProvider> activeDataProviders = new HashSet<ISpatialPersistenceDataProvider>();
+        private readonly HashSet<ISpatialPersistenceServiceModule> activeDataProviders = new HashSet<ISpatialPersistenceServiceModule>();
 
         /// <inheritdoc />
-        public IReadOnlyCollection<ISpatialPersistenceDataProvider> ActiveSpatialPersistenceProviders => activeDataProviders;
+        public IReadOnlyCollection<ISpatialPersistenceServiceModule> ActiveSpatialPersistenceProviders => activeDataProviders;
 
         /// <inheritdoc />
-        public bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
+        public bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceServiceModule provider)
         {
             if (activeDataProviders.Contains(provider))
             {
@@ -46,7 +46,7 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceDataProvider provider)
+        public bool UnRegisterSpatialPersistenceDataProvider(ISpatialPersistenceServiceModule provider)
         {
             if (!activeDataProviders.Contains(provider))
             {
@@ -59,7 +59,7 @@ namespace RealityToolkit.SpatialPersistence
             return true;
         }
 
-        private void SpatialPersistenceEvents(ISpatialPersistenceDataProvider provider, bool isRegistered)
+        private void SpatialPersistenceEvents(ISpatialPersistenceServiceModule provider, bool isRegistered)
         {
             if (activeDataProviders != null && activeDataProviders.Contains(provider))
             {
