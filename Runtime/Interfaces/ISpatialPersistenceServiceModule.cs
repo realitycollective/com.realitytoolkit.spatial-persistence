@@ -11,7 +11,7 @@ using UnityEngine;
 namespace RealityToolkit.SpatialPersistence.Interfaces
 {
     /// <summary>
-    /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceSystem"/>.
+    /// Interface contract for specific identity provider implementations for use in the <see cref="ISpatialPersistenceService"/>.
     /// </summary>
     public interface ISpatialPersistenceServiceModule : IServiceModule
     {

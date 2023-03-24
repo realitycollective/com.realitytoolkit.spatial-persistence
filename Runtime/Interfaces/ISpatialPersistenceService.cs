@@ -1,5 +1,4 @@
 // Copyright (c) Reality Collective. All rights reserved.
-// Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
 using RealityCollective.ServiceFramework.Interfaces;
@@ -11,9 +10,9 @@ using UnityEngine;
 namespace RealityToolkit.SpatialPersistence.Interfaces
 {
     /// <summary>
-    /// Provider agnostic Interface contract for Cloud SpatialPersistence system integration.
+    /// Provider agnostic Interface contract for Cloud SpatialPersistence service integration.
     /// </summary>
-    public interface ISpatialPersistenceSystem : IService
+    public interface ISpatialPersistenceService : IService
     {
         IReadOnlyCollection<ISpatialPersistenceServiceModule> ActiveSpatialPersistenceProviders { get; }
 
@@ -118,14 +117,14 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         #endregion Events
 
         /// <summary>
-        /// Registers the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceSystem"/>.
+        /// Registers the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceService"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>
         bool RegisterSpatialPersistenceDataProvider(ISpatialPersistenceServiceModule dataProvider);
 
         /// <summary>
-        /// UnRegisters the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceSystem"/>.
+        /// UnRegisters the <see cref="ISpatialPersistenceServiceModule"/> with the <see cref="ISpatialPersistenceService"/>.
         /// </summary>
         /// <param name="dataProvider"></param>
         /// <returns></returns>

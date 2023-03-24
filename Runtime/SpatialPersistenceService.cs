@@ -1,7 +1,8 @@
 // Copyright (c) Reality Collective. All rights reserved.
-// Copyright (c) XRTK. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using RealityCollective.ServiceFramework.Attributes;
+using RealityCollective.ServiceFramework.Definitions.Platforms;
 using RealityCollective.ServiceFramework.Services;
 using RealityToolkit.SpatialPersistence.Definitions;
 using RealityToolkit.SpatialPersistence.Interfaces;
@@ -13,18 +14,17 @@ using UnityEngine;
 namespace RealityToolkit.SpatialPersistence
 {
     /// <summary>
-    /// Concrete implementation of the <see cref="ISpatialPersistenceSystem"/>
+    /// Concrete implementation of the <see cref="ISpatialPersistenceService"/>
     /// </summary>
+    [RuntimePlatform(typeof(AllPlatforms))]
     [System.Runtime.InteropServices.Guid("C055102F-5204-42ED-A4D8-F80D129B6BBD")]
-    public class SpatialPersistenceSystem : BaseServiceWithConstructor, ISpatialPersistenceSystem
+    public class SpatialPersistenceService : BaseServiceWithConstructor, ISpatialPersistenceService
     {
         /// <inheritdoc />
-        public SpatialPersistenceSystem(string name, uint priority, SpatialPersistenceSystemProfile profile)
+        public SpatialPersistenceService(string name, uint priority, SpatialPersistenceServiceProfile profile)
             : base(name, priority)
         {
         }
-
-        #region IMixedRealitySpatialPersistenceSystem Implementation
 
         private readonly HashSet<ISpatialPersistenceServiceModule> activeDataProviders = new HashSet<ISpatialPersistenceServiceModule>();
 
@@ -200,7 +200,5 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public event Action<Guid, string> AnchorLocatedError;
         private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
-
-        #endregion IMixedRealitySpatialPersistenceSystem Implementation
     }
 }
