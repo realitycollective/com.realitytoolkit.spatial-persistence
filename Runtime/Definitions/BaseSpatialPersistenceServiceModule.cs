@@ -23,16 +23,8 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public virtual bool IsRunning => false;
 
+        /// <inheritdoc />
         public virtual SpatialPersistenceTrackingType TrackingType => SpatialPersistenceTrackingType.NotSupported;
-
-        /// <inheritdoc />
-        public virtual void DeleteAnchors(params Guid[] ids) { }
-
-        /// <inheritdoc />
-        public virtual bool HasAnchor(GameObject anchoredObject)
-        {
-            throw new NotImplementedException();
-        }
 
         /// <inheritdoc />
         public virtual Task StartSpatialPersistenceModule()
@@ -42,12 +34,6 @@ namespace RealityToolkit.SpatialPersistence
 
         /// <inheritdoc />
         public virtual void StopSpatialPersistenceModule()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public virtual bool TryClearAnchorCache()
         {
             throw new NotImplementedException();
         }
@@ -95,11 +81,34 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
+        public virtual bool HasAnchor(GameObject anchoredObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
         public virtual bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
+        public virtual void DeleteAnchors(params Guid[] ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public virtual void ResetAnchors(params Guid[] ids)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public virtual bool TryClearAnchorCache()
+        {
+            throw new NotImplementedException();
+        }
         #region Events
 
         #region Service Module Events

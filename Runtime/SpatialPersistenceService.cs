@@ -8,6 +8,7 @@ using RealityToolkit.SpatialPersistence.Definitions;
 using RealityToolkit.SpatialPersistence.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -35,11 +36,13 @@ namespace RealityToolkit.SpatialPersistence
         #region MonoBehaviours
         public override void Destroy()
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            var destroyingServiceModules = ServiceModules.ToArray();
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in destroyingServiceModules)
             {
                 persistenceServiceModule.StopSpatialPersistenceModule();
                 UnRegisterServiceModule(persistenceServiceModule);
             }
+            destroyingServiceModules = null;
             base.Destroy();
         }
         #endregion MonoBehaviours
@@ -83,7 +86,7 @@ namespace RealityToolkit.SpatialPersistence
             modules = foundModules.ToArray();
             return foundModules.Count > 0;
         }
-        
+
         /// <inheritdoc />
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {

@@ -126,6 +126,12 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         void DeleteAnchors(params Guid[] ids);
 
         /// <summary>
+        /// Instruct the vendor solution to stop tracking a collection of Anchors by their ID/UID so they can be freshly detected again, soft delete.
+        /// </summary>
+        /// <param name="ids"></param>
+        void ResetAnchors(params Guid[] ids);
+
+        /// <summary>
         /// Instruct the Anchor system to clear its cache of downloaded Anchors.  Does not delete the Anchors from the vendor solution.
         /// </summary>
         /// <returns>Returns true if the operation was successful.</returns>
