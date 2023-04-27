@@ -11,7 +11,7 @@
     "immersive",
     "unity"
   ],
-  "version": "1.0.0-pre-release.2",
+  "version": "1.0.0",
   "unity": "2020.3",
   "homepage": "https://github.com/realitycollective",
   "bugs": {
@@ -28,7 +28,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-pre.6"
+    "com.realitytoolkit.core": "1.0.0-pre.12"
   },
   "assets": [
     {
