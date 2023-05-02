@@ -47,7 +47,7 @@ namespace RealityToolkit.SpatialPersistence
         }
         #endregion MonoBehaviours
 
-        #region IMixedRealitySpatialPersistenceSystem Implementation
+        #region ISpatialPersistenceService Implementation
         /// <inheritdoc />
         public async Task StartSpatialPersistenceService()
         {
@@ -238,7 +238,7 @@ namespace RealityToolkit.SpatialPersistence
         public event Action<Guid> AnchorDeleted;
         private void OnAnchorDeleted(Guid id) => AnchorDeleted?.Invoke(id);
 
-        #endregion IMixedRealitySpatialPersistenceSystem Implementation
+        #endregion ISpatialPersistenceService Implementation
 
         #region BaseService Implementation
         /// <inheritdoc />
