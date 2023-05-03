@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Editor/LinkXmlInstaller.cs.meta
+guid: 6ad4c559be9497f41aa52aa4e0890cfd
+========
 guid: 42c8ca28ffb9db74fbdb2de1ad592313
+>>>>>>>> 9c951a6b5d4547fa96a7ec69b1b7ef8b8ebea5a0:Editor/SpatialPersistencePackageInstaller.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Link.xml.meta
+guid: f629549c2b0d7f94faba138b1ed8c868
+TextScriptImporter:
+========
 guid: 0ca273bb2a4a48c4d937f8d7ba6eede4
 NativeFormatImporter:
+>>>>>>>> 9c951a6b5d4547fa96a7ec69b1b7ef8b8ebea5a0:Assets~/Profiles/SpatialPersistencePackageInstallerProfile.asset.meta
   externalObjects: {}
   mainObjectFileID: 11400000
   userData: 

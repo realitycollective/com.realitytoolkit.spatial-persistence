@@ -1,18 +1,18 @@
 # Reality Toolkit - Spatial Persistence Module
 
-The Spatial Persistence package for the [Reality Toolkit](https://github.com/realitycollective/com.realitytoolkit.core).
+The Spatial Persistence Service package for building anchored solutions, built upon the Reality Collective [Service Framework](https://github.com/realitycollective/com.realitycollective.service-framework).
 
-Requires vendor data providers to deliver implementations, such as the [Azure Spatial Anchors provider here](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
+Requires vendor service modules to deliver implementations, such as the [Azure Spatial Anchors module here](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
 
 ## What's included?
 
 - Spatial Persistence system manager
 
-*Requires vendor specific providers to be added for operation (see above)
+*Requires vendor specific APIs to be added for operation (see above)
 
 ## Requirements
 
-- [RealityToolkit.Core](https://github.com/realitycollective/com.realitytoolkit.core)
+- [RealityCollective.ServiceFramework](https://github.com/realitycollective/com.realitycollective.service-framework)
 - [Unity 2020.3 and above](https://unity.com/)
 
 ## Getting Started
