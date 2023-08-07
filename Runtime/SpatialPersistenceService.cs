@@ -92,7 +92,10 @@ namespace RealityToolkit.SpatialPersistence
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                persistenceServiceModule.TryCreateAnchor(position, rotation, timeToLive);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    persistenceServiceModule.TryCreateAnchor(position, rotation, timeToLive);
+                }
             }
         }
 
@@ -101,7 +104,10 @@ namespace RealityToolkit.SpatialPersistence
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                return await persistenceServiceModule.TryCreateAnchorAsync(position, rotation, timeToLive);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    return await persistenceServiceModule.TryCreateAnchorAsync(position, rotation, timeToLive);
+                }
             }
 
             return Guid.Empty;
@@ -115,7 +121,10 @@ namespace RealityToolkit.SpatialPersistence
 
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                persistenceServiceModule.TryFindAnchors(ids);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    persistenceServiceModule.TryFindAnchors(ids);
+                }
             }
         }
 
@@ -124,7 +133,10 @@ namespace RealityToolkit.SpatialPersistence
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                persistenceServiceModule.TryFindAnchors(args);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
+                {
+                    persistenceServiceModule.TryFindAnchors(args);
+                }
             }
         }
 
@@ -133,7 +145,10 @@ namespace RealityToolkit.SpatialPersistence
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                persistenceServiceModule.TryFindAnchors(searchType);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    persistenceServiceModule.TryFindAnchors(searchType);
+                }
             }
         }
 
@@ -145,7 +160,10 @@ namespace RealityToolkit.SpatialPersistence
 
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                return await persistenceServiceModule.TryFindAnchorsAsync(ids);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    return await persistenceServiceModule.TryFindAnchorsAsync(ids);
+                }
             }
 
             return false;
@@ -159,7 +177,10 @@ namespace RealityToolkit.SpatialPersistence
 
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                return await persistenceServiceModule.TryFindAnchorsAsync(args);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
+                {
+                    return await persistenceServiceModule.TryFindAnchorsAsync(args);
+                }
             }
 
             return false;
@@ -172,9 +193,12 @@ namespace RealityToolkit.SpatialPersistence
 
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                if (persistenceServiceModule.TryMoveAnchor(anchoredObject, worldPos, worldRot, cloudAnchorID))
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
                 {
-                    return true;
+                    if (persistenceServiceModule.TryMoveAnchor(anchoredObject, worldPos, worldRot, cloudAnchorID))
+                    {
+                        return true;
+                    }
                 }
             }
 
@@ -186,7 +210,10 @@ namespace RealityToolkit.SpatialPersistence
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
-                persistenceServiceModule.DeleteAnchors(ids);
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                {
+                    persistenceServiceModule.DeleteAnchors(ids);
+                }
             }
         }
 
