@@ -33,11 +33,15 @@ namespace RealityToolkit.SpatialPersistence.Definitions
 
         public string Url { get => url; set => url = value; }
 
-        [SerializeField, Tooltip("The guid for this image.")]
+        [SerializeField, Tooltip("The source guid for this image, used by the calling provider.")]
+        private Guid sourceGuid;
+
+        public Guid SourceGuid { get => sourceGuid; set => sourceGuid = value; }
+
+        [SerializeField, Tooltip("The tracked guid for this image.")]
         private Guid referenceGuid;
 
         public Guid ReferenceGuid { get => referenceGuid; set => referenceGuid = value; }
-
 
         [Header("Settings")]
         [SerializeField, Tooltip("Is the content located locally or remote?")]
