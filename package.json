@@ -28,7 +28,7 @@
     "url": "https://github.com/realitycollective"
   },
   "dependencies": {
-    "com.realitytoolkit.core": "1.0.0-pre.43"
+    "com.realitycollective.service-framework": "v1.0.7-pre.3"
   },
   "assets": [
     {
