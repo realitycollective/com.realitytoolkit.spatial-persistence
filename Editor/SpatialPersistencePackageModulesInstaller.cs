@@ -19,7 +19,7 @@ namespace RealityToolkit.SpatialPersistence.Editor
     public sealed class SpatialPersistencePackageModulesInstaller : IPackageModulesInstaller
     {
         /// <summary>
-        /// Statis initalizer for the installer instance.
+        /// Static initializer for the installer instance.
         /// </summary>
         static SpatialPersistencePackageModulesInstaller()
         {
