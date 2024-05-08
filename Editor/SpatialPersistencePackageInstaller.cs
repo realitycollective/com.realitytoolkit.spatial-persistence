@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Reality Collective. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
-using RealityCollective.ServiceFramework;
 using RealityCollective.ServiceFramework.Editor;
 using RealityCollective.ServiceFramework.Editor.Packages;
 using RealityCollective.Utilities.Editor;
