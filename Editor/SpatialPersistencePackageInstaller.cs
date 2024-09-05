@@ -14,7 +14,7 @@ namespace RealityToolkit.SpatialPersistence.Editor
     [InitializeOnLoad]
     internal static class SpatialPersistencePackageInstaller
     {
-        private static readonly string destinationPath = Application.dataPath + "/RealityToolkit.Generated/SpatialPersistence";
+        private static readonly string destinationPath = Application.dataPath + "/RealityToolkit/SpatialPersistence";
         private static readonly string sourcePath = Path.GetFullPath($"{PathFinderUtility.ResolvePath<IPathFinder>(typeof(SpatialPersistencePackagePathFinder)).ForwardSlashes()}{Path.DirectorySeparatorChar}{"Assets~"}");
 
         static SpatialPersistencePackageInstaller()
