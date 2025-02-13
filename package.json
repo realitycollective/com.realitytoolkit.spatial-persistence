@@ -2,7 +2,7 @@
   "name": "com.realitytoolkit.spatial-persistence",
   "displayName": "RealityToolkit.SpatialPersistence",
   "description": "The Spatial Persistence components for the Reality Toolkit by the Reality Collective.",
-  "version": "1.0.3-pre.3",
+  "version": "1.0.3",
   "documentationUrl": "https://realitytoolkit.realitycollective.net/",
   "changelogUrl": "https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/releases",
   "licensesUrl": "https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/blob/main/LICENSE.md",
