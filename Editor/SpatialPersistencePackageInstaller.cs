@@ -22,13 +22,13 @@ namespace RealityToolkit.SpatialPersistence.Editor
             EditorApplication.delayCall += CheckPackage;
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Spatial Persistence Package Assets...", true)]
+        [MenuItem("Tools/Reality Toolkit/Packages/Install Spatial Persistence Package Assets...", true)]
         private static bool ImportPackageAssetsValidation()
         {
             return !Directory.Exists($"{destinationPath}{Path.DirectorySeparatorChar}");
         }
 
-        [MenuItem(ServiceFrameworkPreferences.Editor_Menu_Keyword + "/Reality Toolkit/Packages/Install Spatial Persistence Package Assets...")]
+        [MenuItem("Tools/Reality Toolkit/Packages/Install Spatial Persistence Package Assets...", false, 1)]
         private static void ImportPackageAssets()
         {
             EditorPreferences.Set($"{nameof(SpatialPersistencePackageInstaller)}.Assets", false);
