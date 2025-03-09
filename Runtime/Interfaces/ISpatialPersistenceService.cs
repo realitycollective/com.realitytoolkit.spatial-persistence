@@ -49,47 +49,23 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <param name="rotation">Raycast rotation to place the prefab and localize the Anchor.</param>
         /// <param name="timeToLive">Defined lifetime of the placed Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpreted as being for an indefinite time period.</param>
         /// <remarks>The Position and Rotation are usually the result of a Raycast hit in to the AR scene for placement.</remarks>
-        Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
+        Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
         /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID.
         /// </summary>
-        /// <param name="ids">Array of <see cref="Guid"/> identifiers for the Anchor platform to locate.</param>
-        /// <returns>Returns true of the location request to the service was successful.</returns>
-        /// <remarks>Does not return Anchors, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
-        void TryFindAnchors(params Guid[] ids);
-
-        /// <summary>
-        /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID.
-        /// </summary>
-        /// <param name="ids">Array of <see cref="SpatialPersistenceAnchorArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
+        /// <param name="ids">Array of <see cref="SpatialPersistenceSearchArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
         /// <returns>Returns true of the location request to the service was successful.</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
-        void TryFindAnchors(params SpatialPersistenceAnchorArgs[] args);
-
-        /// <summary>
-        /// Instruct the vendor solution to locate a collection of Anchors using a specific type of search, e.g. Nearby.
-        /// </summary>
-        /// <param name="searchType">The type of search to perform, specified by the <see cref="SpatialPersistenceSearchType"/> type.</param>
-        /// <returns>Returns true of the location request to the service was successful.</returns>
-        /// <remarks>Does not return Anchors, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
-        void TryFindAnchors(SpatialPersistenceSearchType searchType);
-
-        /// <summary>
-        /// Instruct the vendor solution to locate a collection of Anchors by their ID/UID.
-        /// </summary>
-        /// <param name="ids">Array of <see cref="Guid"/> identifiers for the Anchor platform to locate.</param>
-        /// <returns>Returns true of the location request to the service was successful.</returns>
-        /// <remarks>Does not return Anchors, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
-        Task<bool> TryFindAnchorsAsync(params Guid[] ids);
+        void TryFindAnchors(params SpatialPersistenceSearchArgs[] args);
 
         /// <summary>
         /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID ID/UID async.
         /// </summary>
-        /// <param name="ids">Array of  <see cref="SpatialPersistenceAnchorArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
+        /// <param name="ids">Array of  <see cref="SpatialPersistenceSearchArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
         /// <returns>Returns true of the location request to the service was successful.</returns>
         /// <remarks>Does not return anchored objects, the <see cref="AnchorLocated"/> event will respond with discovered Anchors.</remarks>
-        Task<bool> TryFindAnchorsAsync(params SpatialPersistenceAnchorArgs[] args);
+        Task<bool> TryFindAnchorsAsync(params SpatialPersistenceSearchArgs[] args);
 
         /// <summary>
         /// Moves a currently anchored object to a new localized position.
@@ -98,21 +74,27 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <param name="anchoredObject">Object in the scene to move.</param>
         /// <param name="position">Raycast position to move the prefab to and re-localize the Anchor.</param>
         /// <param name="rotation">Raycast rotation to move the prefab to and re-localize the Anchor.</param>
-        /// <param name="vendorAnchorID"><see cref="Guid"/> identifier for the Anchor platform to place.</param>
+        /// <param name="vendorAnchorID"><see cref="string"/> identifier for the Anchor platform to place.</param>
         /// <returns>Returns true if the operation was successful.</returns>
-        bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid vendorAnchorID);
+        bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, string vendorAnchorID);
 
         /// <summary>
         /// Instruct the vendor solution to delete a collection of Anchors by their ID/UID.
         /// </summary>
         /// <param name="ids">list of anchors to remove.</param>
-        void TryDeleteAnchors(params Guid[] ids);
+        void TryDeleteAnchors(params string[] ids);
 
         /// <summary>
         /// Instruct the Anchor system to clear its cache of downloaded Anchors.  Does not delete the Anchors from the vendor solution.
         /// </summary>
         /// <returns>Returns true if the operation was successful.</returns>
         bool TryClearAnchorCache();
+
+        /// <summary>
+        /// Instruct the vendor solution to cancel the current Anchor operation.
+        /// This is usually a long running operation, such as creating an Anchor or locating an Anchor.
+        /// </summary>
+        void CancelAnchorOperation();
 
         #endregion Methods
 
@@ -126,7 +108,7 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <summary>
         /// The Spatial Persistence vendor reports that creation of the Anchor succeeded
         /// </summary>
-        event Action<Guid, GameObject> CreateAnchorSucceeded;
+        event Action<string, GameObject> CreateAnchorSucceeded;
 
         /// <summary>
         /// Status message whilst the Spatial Persistence service is localizing the Anchor in place, continues until complete or a failure occurs
@@ -141,22 +123,22 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         /// <summary>
         /// Location request to Spatial Persistence service successful and a localized Anchor was found and cached.
         /// </summary>
-        event Action<Guid, GameObject> AnchorLocated;
+        event Action<string, GameObject> AnchorLocated;
 
         /// <summary>
         /// An error occurred retrieving the selected Anchor and the data was invalid.
         /// </summary>
-        event Action<Guid, string> AnchorLocatedError;
+        event Action<string, string> AnchorLocatedError;
 
         /// <summary>
         /// Notification that the vendor solution has performed an operation on an object in the scene
         /// </summary>
-        event Action<Guid, GameObject> AnchorUpdated;
+        event Action<string, GameObject> AnchorUpdated;
 
         /// <summary>
         /// Notification that the vendor solution has stopped tracking an object in the scene
         /// </summary>
-        event Action<Guid> AnchorDeleted;
+        event Action<string> AnchorDeleted;
         #endregion Events
     }
 }

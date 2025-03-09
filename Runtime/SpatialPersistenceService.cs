@@ -37,15 +37,18 @@ namespace RealityToolkit.SpatialPersistence
         public override void Destroy()
         {
             var destroyingServiceModules = ServiceModules.ToArray();
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in destroyingServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in destroyingServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 persistenceServiceModule.StopSpatialPersistenceModule();
                 UnRegisterServiceModule(persistenceServiceModule);
             }
-            destroyingServiceModules = null;
             base.Destroy();
         }
         #endregion MonoBehaviours
+
+        #region IService
+        public override bool RegisterServiceModules => false;
+        #endregion IService
 
         #region ISpatialPersistenceService Implementation
         /// <inheritdoc />
@@ -53,7 +56,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             if (ServiceModules.Count > 0)
             {
-                foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+                foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
                 {
                     await persistenceServiceModule.StartSpatialPersistenceModule();
                 }
@@ -65,7 +68,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             if (ServiceModules.Count > 0)
             {
-                foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+                foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
                 {
                     persistenceServiceModule.StopSpatialPersistenceModule();
                 }
@@ -76,7 +79,7 @@ namespace RealityToolkit.SpatialPersistence
         public bool TryGetModulesByTrackingType(SpatialPersistenceTrackingType trackingType, out ISpatialPersistenceServiceModule[] modules)
         {
             var foundModules = new List<ISpatialPersistenceServiceModule>();
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TrackingType == trackingType)
                 {
@@ -90,7 +93,7 @@ namespace RealityToolkit.SpatialPersistence
         /// <inheritdoc />
         public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
                 {
@@ -100,9 +103,9 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public async Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
+        public async Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
                 {
@@ -110,88 +113,41 @@ namespace RealityToolkit.SpatialPersistence
                 }
             }
 
-            return Guid.Empty;
+            return string.Empty;
         }
 
         /// <inheritdoc />
-        public void TryFindAnchors(params Guid[] ids)
-        {
-            Debug.Assert(ids != null, "ID array is null");
-            Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
-
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
-            {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
-                {
-                    persistenceServiceModule.TryFindAnchors(ids);
-                }
-            }
-        }
-
-        /// <inheritdoc />
-        public void TryFindAnchors(params SpatialPersistenceAnchorArgs[] args)
+        public void TryFindAnchors(params SpatialPersistenceSearchArgs[] searchCriteria)
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
             {
                 if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
                 {
-                    persistenceServiceModule.TryFindAnchors(args);
+                    persistenceServiceModule.TryFindAnchors(searchCriteria);
                 }
             }
         }
 
         /// <inheritdoc />
-        public void TryFindAnchors(SpatialPersistenceSearchType searchType)
+        public async Task<bool> TryFindAnchorsAsync(params SpatialPersistenceSearchArgs[] searchCriteria)
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
-            {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
-                {
-                    persistenceServiceModule.TryFindAnchors(searchType);
-                }
-            }
-        }
+            Debug.Assert(searchCriteria != null, "Search criteria array is null");
+            Debug.Assert(searchCriteria.Length > 0, "Search criteria required for SpatialPersistence search");
 
-        /// <inheritdoc />
-        public async Task<bool> TryFindAnchorsAsync(params Guid[] ids)
-        {
-            Debug.Assert(ids != null, "ID array is null");
-            Debug.Assert(ids.Length > 0, "IDs required for SpatialPersistence search");
-
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
-                {
-                    return await persistenceServiceModule.TryFindAnchorsAsync(ids);
-                }
+                return await persistenceServiceModule.TryFindAnchorsAsync(searchCriteria);
             }
 
             return false;
         }
 
         /// <inheritdoc />
-        public async Task<bool> TryFindAnchorsAsync(params SpatialPersistenceAnchorArgs[] args)
-        {
-            Debug.Assert(args != null, "ID array is null");
-            Debug.Assert(args.Length > 0, "IDs required for SpatialPersistence search");
-
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
-            {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
-                {
-                    return await persistenceServiceModule.TryFindAnchorsAsync(args);
-                }
-            }
-
-            return false;
-        }
-
-        /// <inheritdoc />
-        public bool TryMoveAnchor(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, Guid cloudAnchorID)
+        public bool TryMoveAnchor(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, string cloudAnchorID)
         {
             Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
 
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
                 {
@@ -206,9 +162,9 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public void TryDeleteAnchors(params Guid[] ids)
+        public void TryDeleteAnchors(params string[] ids)
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
                 {
@@ -222,7 +178,7 @@ namespace RealityToolkit.SpatialPersistence
         {
             var anyClear = false;
 
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
                 if (persistenceServiceModule.TryClearAnchorCache())
                 {
@@ -232,14 +188,22 @@ namespace RealityToolkit.SpatialPersistence
 
             return anyClear;
         }
+        
+        public void CancelAnchorOperation()
+        {
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            {
+                persistenceServiceModule.CancelAnchorOperation();
+            }
+        }
 
         /// <inheritdoc />
         public event Action CreateAnchorFailed;
         private void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> CreateAnchorSucceeded;
-        private void OnCreateAnchorSucceeded(Guid id, GameObject anchoredObject) => CreateAnchorSucceeded?.Invoke(id, anchoredObject);
+        public event Action<string, GameObject> CreateAnchorSucceeded;
+        private void OnCreateAnchorSucceeded(string id, GameObject anchoredObject) => CreateAnchorSucceeded?.Invoke(id, anchoredObject);
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceStatusMessage;
@@ -250,20 +214,20 @@ namespace RealityToolkit.SpatialPersistence
         private void OnSpatialPersistenceError(string exception) => SpatialPersistenceError?.Invoke(exception);
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorLocated;
-        private void OnAnchorLocated(Guid id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
+        public event Action<string, GameObject> AnchorLocated;
+        private void OnAnchorLocated(string id, GameObject anchoredGameObject) => AnchorLocated?.Invoke(id, anchoredGameObject);
 
         /// <inheritdoc />
-        public event Action<Guid, string> AnchorLocatedError;
-        private void OnAnchorLocatedError(Guid id, string exception) => AnchorLocatedError?.Invoke(id, exception);
+        public event Action<string, string> AnchorLocatedError;
+        private void OnAnchorLocatedError(string id, string exception) => AnchorLocatedError?.Invoke(id, exception);
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorUpdated;
-        private void OnAnchorUpdated(Guid id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
+        public event Action<string, GameObject> AnchorUpdated;
+        private void OnAnchorUpdated(string id, GameObject gameObject) => AnchorUpdated?.Invoke(id, gameObject);
 
         /// <inheritdoc />
-        public event Action<Guid> AnchorDeleted;
-        private void OnAnchorDeleted(Guid id) => AnchorDeleted?.Invoke(id);
+        public event Action<string> AnchorDeleted;
+        private void OnAnchorDeleted(string id) => AnchorDeleted?.Invoke(id);
 
         #endregion ISpatialPersistenceService Implementation
 
