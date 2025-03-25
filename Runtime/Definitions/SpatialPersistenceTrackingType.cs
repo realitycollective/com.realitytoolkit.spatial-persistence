@@ -9,6 +9,7 @@ namespace RealityToolkit.SpatialPersistence
     public enum SpatialPersistenceTrackingType
     {
         NotSupported = 0,
+        Any,
         CloudAnchor = 1,
         ImageTracking = 2
     }

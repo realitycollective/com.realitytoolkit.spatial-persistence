@@ -45,37 +45,19 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public virtual Task<Guid> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
+        public virtual Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public virtual void TryFindAnchors(params Guid[] ids)
+        public virtual void TryFindAnchors(params SpatialPersistenceSearchArgs[] searchCriteria)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public virtual void TryFindAnchors(params SpatialPersistenceAnchorArgs[] args)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public virtual void TryFindAnchors(SpatialPersistenceSearchType searchType)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public virtual Task<bool> TryFindAnchorsAsync(params Guid[] ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <inheritdoc />
-        public virtual Task<bool> TryFindAnchorsAsync(params SpatialPersistenceAnchorArgs[] args)
+        public virtual Task<bool> TryFindAnchorsAsync(params SpatialPersistenceSearchArgs[] args)
         {
             throw new NotImplementedException();
         }
@@ -87,25 +69,31 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public virtual bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, Guid cloudAnchorID)
+        public virtual bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, string cloudAnchorID)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public virtual void DeleteAnchors(params Guid[] ids)
+        public virtual void DeleteAnchors(params string[] ids)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public virtual void ResetAnchors(params Guid[] ids)
+        public virtual void ResetAnchors(params string[] ids)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
         public virtual bool TryClearAnchorCache()
+        {
+            throw new NotImplementedException();
+        }
+        
+        /// <inheritdoc />
+        public virtual void CancelAnchorOperation()
         {
             throw new NotImplementedException();
         }
@@ -143,7 +131,7 @@ namespace RealityToolkit.SpatialPersistence
         public event Action CreateAnchorFailed;
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> CreateAnchorSucceeded;
+        public event Action<string, GameObject> CreateAnchorSucceeded;
 
         /// <inheritdoc />
         public event Action<string> SpatialPersistenceStatusMessage;
@@ -152,26 +140,27 @@ namespace RealityToolkit.SpatialPersistence
         public event Action<string> SpatialPersistenceError;
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorLocated;
+        public event Action<string, GameObject> AnchorLocated;
 
         /// <inheritdoc />
-        public event Action<Guid, string> AnchorLocatedError;
+        public event Action<string, string> AnchorLocatedError;
 
         /// <inheritdoc />
-        public event Action<Guid, GameObject> AnchorUpdated;
+        public event Action<string, GameObject> AnchorUpdated;
 
         /// <inheritdoc />
-        public event Action<Guid> AnchorDeleted;
+        public event Action<string> AnchorDeleted;
 
         #region Handlers
         public void OnCreateAnchorFailed() => CreateAnchorFailed?.Invoke();
-        public void OnCreateAnchorSucceeded(Guid guid, GameObject target) => CreateAnchorSucceeded?.Invoke(guid, target);
+        public void OnCreateAnchorSucceeded(string anchorID, GameObject target) => CreateAnchorSucceeded?.Invoke(anchorID, target);
         public void OnSpatialPersistenceStatusMessage(string message) => SpatialPersistenceStatusMessage?.Invoke(message);
         public void OnSpatialPersistenceError(string message) => SpatialPersistenceError?.Invoke(message);
-        public void OnAnchorLocated(Guid guid, GameObject target) => AnchorLocated?.Invoke(guid, target);
-        public void OnAnchorLocatedError(Guid guid, string message) => AnchorLocatedError?.Invoke(guid, message);
-        public void OnAnchorUpdated(Guid guid, GameObject target) => AnchorUpdated?.Invoke(guid, target);
-        public void OnAnchorDeleted(Guid guid) => AnchorDeleted?.Invoke(guid);
+        public void OnAnchorLocated(string anchorID, GameObject target) => AnchorLocated?.Invoke(anchorID, target);
+        public void OnAnchorLocatedError(string anchorID, string message) => AnchorLocatedError?.Invoke(anchorID, message);
+        public void OnAnchorUpdated(string anchorID, GameObject target) => AnchorUpdated?.Invoke(anchorID, target);
+        public void OnAnchorDeleted(string anchorID) => AnchorDeleted?.Invoke(anchorID);
+
         #endregion Handlers
 
         #endregion Service Events

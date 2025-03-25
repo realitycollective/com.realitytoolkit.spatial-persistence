@@ -2,7 +2,7 @@
   "name": "com.realitytoolkit.spatial-persistence",
   "displayName": "RealityToolkit.SpatialPersistence",
   "description": "The Spatial Persistence components for the Reality Toolkit by the Reality Collective.",
-  "version": "1.0.4",
+  "version": "1.1.0-pre.0",
   "documentationUrl": "https://realitytoolkit.realitycollective.net/",
   "changelogUrl": "https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/releases",
   "licensesUrl": "https://github.com/realitycollective/com.realitytoolkit.spatial-persistence/blob/main/LICENSE.md",
@@ -34,7 +34,7 @@
     "registry": "https://package.openupm.com"
   },
   "dependencies": {
-    "com.realitycollective.service-framework": "1.0.9"
+    "com.realitycollective.service-framework": "1.0.8"
   },
   "assets": [
     {
