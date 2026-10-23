@@ -17,6 +17,8 @@ namespace RealityToolkit.SpatialPersistence
                 (spatialPersistenceTrackingType == SpatialPersistenceTrackingType.CloudAnchor && !string.IsNullOrEmpty(anchorID)) ||
                 // Check if the tracking texture is valid for image Anchors
                 (spatialPersistenceTrackingType == SpatialPersistenceTrackingType.ImageTracking && texture != null) ||
+                // Check if the anchor ID, which names the stored map, is valid for device map Anchors
+                (spatialPersistenceTrackingType == SpatialPersistenceTrackingType.DeviceMap && !string.IsNullOrEmpty(anchorID)) ||
                 // Check if the anchor ID is valid for global Anchors
                 (spatialPersistenceTrackingType == SpatialPersistenceTrackingType.Any && !string.IsNullOrEmpty(anchorID)) ||
                 spatialPersistenceTrackingType == SpatialPersistenceTrackingType.NotSupported;

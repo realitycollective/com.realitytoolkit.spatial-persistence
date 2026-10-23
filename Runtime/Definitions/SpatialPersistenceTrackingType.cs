@@ -11,6 +11,12 @@ namespace RealityToolkit.SpatialPersistence
         NotSupported = 0,
         Any,
         CloudAnchor = 1,
-        ImageTracking = 2
+        ImageTracking = 2,
+
+        /// <summary>
+        /// Anchors localised against a map that was scanned and is stored on the device, with no cloud service involved
+        /// (for example Niantic device mapping). The anchor ID identifies the stored map.
+        /// </summary>
+        DeviceMap = 3
     }
 }
