@@ -17,6 +17,12 @@ namespace RealityToolkit.SpatialPersistence
         /// Anchors localised against a map that was scanned and is stored on the device, with no cloud service involved
         /// (for example Niantic device mapping). The anchor ID identifies the stored map.
         /// </summary>
-        DeviceMap = 3
+        DeviceMap = 3,
+
+        /// <summary>
+        /// Anchors at a geographic position, found by GPS and visual positioning. A search names the position in
+        /// <see cref="SpatialPersistenceSearchArgs.coordinate"/>.
+        /// </summary>
+        Geospatial = 4
     }
 }
