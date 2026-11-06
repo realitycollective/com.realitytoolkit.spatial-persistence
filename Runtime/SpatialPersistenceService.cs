@@ -44,6 +44,43 @@ namespace RealityToolkit.SpatialPersistence
             }
             base.Destroy();
         }
+
+        // The modules are not registered with the ServiceManager (RegisterServiceModules is false), and
+        // BaseService only ticks its modules when they are registered, so without these overrides no
+        // module would ever receive Update (scan progress, coverage, localisation timeouts).
+        // base is not called so the modules can never be ticked twice.
+
+        /// <inheritdoc />
+        public override void Update() => TickModules(m => m.Update());
+
+        /// <inheritdoc />
+        public override void LateUpdate() => TickModules(m => m.LateUpdate());
+
+        /// <inheritdoc />
+        public override void FixedUpdate() => TickModules(m => m.FixedUpdate());
+
+        private readonly List<IServiceModule> tickBuffer = new List<IServiceModule>();
+
+        private void TickModules(Action<IServiceModule> tick)
+        {
+            if (ServiceModules == null || ServiceModules.Count == 0)
+            {
+                return;
+            }
+
+            // Copied first because a module may unregister itself while being ticked.
+            tickBuffer.Clear();
+            tickBuffer.AddRange(ServiceModules);
+            foreach (var module in tickBuffer)
+            {
+                if (module != null && !(module is BaseService service && !service.IsEnabled))
+                {
+                    try { tick(module); }
+                    catch (Exception e) { Debug.LogException(e); }
+                }
+            }
+            tickBuffer.Clear();
+        }
         #endregion MonoBehaviours
 
         #region IService
