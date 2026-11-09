@@ -52,6 +52,26 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive);
 
         /// <summary>
+        /// Create an Anchor at a specified location with the modules of a chosen tracking type.
+        /// </summary>
+        /// <param name="position">Raycast position to place the prefab and localize the Anchor.</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Anchor.</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpreted as being for an indefinite time period.</param>
+        /// <param name="trackingType">The <see cref="SpatialPersistenceTrackingType"/> of the modules to create the Anchor with, for example <see cref="SpatialPersistenceTrackingType.DeviceMap"/>.</param>
+        /// <remarks>The overload without a tracking type creates the Anchor with <see cref="SpatialPersistenceTrackingType.CloudAnchor"/> modules.</remarks>
+        void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive, SpatialPersistenceTrackingType trackingType);
+
+        /// <summary>
+        /// Create an Anchor at a specified location with the modules of a chosen tracking type, async.
+        /// </summary>
+        /// <param name="position">Raycast position to place the prefab and localize the Anchor.</param>
+        /// <param name="rotation">Raycast rotation to place the prefab and localize the Anchor.</param>
+        /// <param name="timeToLive">Defined lifetime of the placed Anchor, informs the backend service to set a cache retention timeout, if a negative value is used, this is interpreted as being for an indefinite time period.</param>
+        /// <param name="trackingType">The <see cref="SpatialPersistenceTrackingType"/> of the modules to create the Anchor with, for example <see cref="SpatialPersistenceTrackingType.DeviceMap"/>.</param>
+        /// <returns>The ID of the created Anchor, or an empty string if no module of that type created one.</returns>
+        Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive, SpatialPersistenceTrackingType trackingType);
+
+        /// <summary>
         /// Instruct the vendor solution to locate a collection of Anchors by their Image for a specified ID/UID.
         /// </summary>
         /// <param name="ids">Array of <see cref="SpatialPersistenceSearchArgs"/> identifiers/Texture pairs for the SpatialPersistence platform to locate.</param>
@@ -79,10 +99,29 @@ namespace RealityToolkit.SpatialPersistence.Interfaces
         bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, string vendorAnchorID);
 
         /// <summary>
+        /// Moves a currently anchored object to a new localized position, with the modules of a chosen tracking type.
+        /// </summary>
+        /// <param name="anchoredObject">Object in the scene to move.</param>
+        /// <param name="position">Raycast position to move the prefab to and re-localize the Anchor.</param>
+        /// <param name="rotation">Raycast rotation to move the prefab to and re-localize the Anchor.</param>
+        /// <param name="vendorAnchorID"><see cref="string"/> identifier for the Anchor platform to place.</param>
+        /// <param name="trackingType">The <see cref="SpatialPersistenceTrackingType"/> of the modules holding the Anchor.</param>
+        /// <returns>Returns true if the operation was successful.</returns>
+        /// <remarks>The overload without a tracking type moves the Anchor with <see cref="SpatialPersistenceTrackingType.CloudAnchor"/> modules.</remarks>
+        bool TryMoveAnchor(GameObject anchoredObject, Vector3 position, Quaternion rotation, string vendorAnchorID, SpatialPersistenceTrackingType trackingType);
+
+        /// <summary>
         /// Instruct the vendor solution to delete a collection of Anchors by their ID/UID.
         /// </summary>
         /// <param name="ids">list of anchors to remove.</param>
         void TryDeleteAnchors(params string[] ids);
+
+        /// <summary>
+        /// Instruct the modules of a chosen tracking type to delete a collection of Anchors by their ID/UID.
+        /// </summary>
+        /// <param name="trackingType">The <see cref="SpatialPersistenceTrackingType"/> of the modules holding the Anchors.</param>
+        /// <param name="ids">list of anchors to remove.</param>
+        void TryDeleteAnchors(SpatialPersistenceTrackingType trackingType, params string[] ids);
 
         /// <summary>
         /// Instruct the Anchor system to clear its cache of downloaded Anchors.  Does not delete the Anchors from the vendor solution.

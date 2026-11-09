@@ -37,6 +37,8 @@ The Reality Collective currently provides to "Modules" to provide spatial persis
   Enables registering and identification of Image Tracked targets using ARCOre/ARKit through a managed interface.
 - [Azure ASA Anchors](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.asa)
   A cloud based point cloud location provider, which scans spaces for recognition and then enabled point cloud identification of a Cloud Anchor
+- [Niantic Device Mapping](https://github.com/realitycollective/com.realitytoolkit.spatial-persistence.niantic)
+  Scans a space into a map stored on the device and relocalises against it later, using the Niantic Spatial SDK (NSDK 4) device mapping. No Niantic cloud service is used (`DeviceMap` tracking type).
 
 Many other options are possible through the addition of tracking modules under a common "Spatial Tracking" API
 

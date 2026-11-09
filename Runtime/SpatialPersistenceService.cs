@@ -44,6 +44,43 @@ namespace RealityToolkit.SpatialPersistence
             }
             base.Destroy();
         }
+
+        // The modules are not registered with the ServiceManager (RegisterServiceModules is false), and
+        // BaseService only ticks its modules when they are registered, so without these overrides no
+        // module would ever receive Update (scan progress, coverage, localisation timeouts).
+        // base is not called so the modules can never be ticked twice.
+
+        /// <inheritdoc />
+        public override void Update() => TickModules(m => m.Update());
+
+        /// <inheritdoc />
+        public override void LateUpdate() => TickModules(m => m.LateUpdate());
+
+        /// <inheritdoc />
+        public override void FixedUpdate() => TickModules(m => m.FixedUpdate());
+
+        private readonly List<IServiceModule> tickBuffer = new List<IServiceModule>();
+
+        private void TickModules(Action<IServiceModule> tick)
+        {
+            if (ServiceModules == null || ServiceModules.Count == 0)
+            {
+                return;
+            }
+
+            // Copied first because a module may unregister itself while being ticked.
+            tickBuffer.Clear();
+            tickBuffer.AddRange(ServiceModules);
+            foreach (var module in tickBuffer)
+            {
+                if (module != null && !(module is BaseService service && !service.IsEnabled))
+                {
+                    try { tick(module); }
+                    catch (Exception e) { Debug.LogException(e); }
+                }
+            }
+            tickBuffer.Clear();
+        }
         #endregion MonoBehaviours
 
         #region IService
@@ -117,29 +154,82 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
-        public void TryFindAnchors(params SpatialPersistenceSearchArgs[] searchCriteria)
+        public void TryCreateAnchor(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive, SpatialPersistenceTrackingType trackingType)
         {
-            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
+                if (persistenceServiceModule.TrackingType == trackingType)
                 {
-                    persistenceServiceModule.TryFindAnchors(searchCriteria);
+                    persistenceServiceModule.TryCreateAnchor(position, rotation, timeToLive);
                 }
             }
         }
 
         /// <inheritdoc />
+        public async Task<string> TryCreateAnchorAsync(Vector3 position, Quaternion rotation, DateTimeOffset timeToLive, SpatialPersistenceTrackingType trackingType)
+        {
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            {
+                if (persistenceServiceModule.TrackingType == trackingType)
+                {
+                    return await persistenceServiceModule.TryCreateAnchorAsync(position, rotation, timeToLive);
+                }
+            }
+
+            return string.Empty;
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Each module receives only the search criteria of its own <see cref="SpatialPersistenceTrackingType"/>, so image targets,
+        /// device maps and cloud anchors can be searched for in one call.
+        /// </remarks>
+        public void TryFindAnchors(params SpatialPersistenceSearchArgs[] searchCriteria)
+        {
+            // Legacy (image tracking only): every criterion went to the ImageTracking modules.
+            // foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules)
+            // {
+            //     if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.ImageTracking)
+            //     {
+            //         persistenceServiceModule.TryFindAnchors(searchCriteria);
+            //     }
+            // }
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            {
+                var moduleCriteria = CriteriaFor(persistenceServiceModule, searchCriteria);
+                if (moduleCriteria.Length > 0)
+                {
+                    persistenceServiceModule.TryFindAnchors(moduleCriteria);
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        /// <remarks>
+        /// Each module receives only the search criteria of its own <see cref="SpatialPersistenceTrackingType"/>.
+        /// Returns true if any module accepted its search.
+        /// </remarks>
         public async Task<bool> TryFindAnchorsAsync(params SpatialPersistenceSearchArgs[] searchCriteria)
         {
             Debug.Assert(searchCriteria != null, "Search criteria array is null");
             Debug.Assert(searchCriteria.Length > 0, "Search criteria required for SpatialPersistence search");
 
+            // Legacy: only the first registered module was asked, with every criterion.
+            // foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            // {
+            //     return await persistenceServiceModule.TryFindAnchorsAsync(searchCriteria);
+            // }
+            var found = false;
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
-                return await persistenceServiceModule.TryFindAnchorsAsync(searchCriteria);
+                var moduleCriteria = CriteriaFor(persistenceServiceModule, searchCriteria);
+                if (moduleCriteria.Length > 0 && await persistenceServiceModule.TryFindAnchorsAsync(moduleCriteria))
+                {
+                    found = true;
+                }
             }
 
-            return false;
+            return found;
         }
 
         /// <inheritdoc />
@@ -162,11 +252,43 @@ namespace RealityToolkit.SpatialPersistence
         }
 
         /// <inheritdoc />
+        public bool TryMoveAnchor(GameObject anchoredObject, Vector3 worldPos, Quaternion worldRot, string vendorAnchorID, SpatialPersistenceTrackingType trackingType)
+        {
+            Debug.Assert(anchoredObject != null, "Currently Anchored GameObject reference required");
+
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            {
+                if (persistenceServiceModule.TrackingType == trackingType &&
+                    persistenceServiceModule.TryMoveAnchor(anchoredObject, worldPos, worldRot, vendorAnchorID))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        public void TryDeleteAnchors(SpatialPersistenceTrackingType trackingType, params string[] ids)
+        {
+            foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
+            {
+                if (persistenceServiceModule.TrackingType == trackingType)
+                {
+                    persistenceServiceModule.DeleteAnchors(ids);
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        /// <remarks>Cloud anchor modules delete their anchors; device map modules delete their anchors too.</remarks>
         public void TryDeleteAnchors(params string[] ids)
         {
             foreach (ISpatialPersistenceServiceModule persistenceServiceModule in ServiceModules.Cast<ISpatialPersistenceServiceModule>())
             {
-                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                // Legacy: if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor)
+                if (persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.CloudAnchor ||
+                    persistenceServiceModule.TrackingType == SpatialPersistenceTrackingType.DeviceMap)
                 {
                     persistenceServiceModule.DeleteAnchors(ids);
                 }
@@ -254,6 +376,14 @@ namespace RealityToolkit.SpatialPersistence
         #endregion BaseService Implementation
 
         #region Private Functions
+        /// <summary>
+        /// The search criteria a module can act on: those of its own tracking type.
+        /// </summary>
+        private static SpatialPersistenceSearchArgs[] CriteriaFor(ISpatialPersistenceServiceModule module, SpatialPersistenceSearchArgs[] searchCriteria)
+            => searchCriteria == null
+                ? Array.Empty<SpatialPersistenceSearchArgs>()
+                : searchCriteria.Where(criteria => criteria.spatialPersistenceTrackingType == module.TrackingType).ToArray();
+
         private void SpatialPersistenceEvents(ISpatialPersistenceServiceModule module, bool registerEvents)
         {
             if (registerEvents)
